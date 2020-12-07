@@ -40,13 +40,17 @@ header {
   border-bottom: 1px solid #dcdcdc;
 }
 
-h1 {
+a {
   font-weight: 400;
   font-size: 40px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
 }
 
-h1 span {
+a span {
   font-weight: 600;
+  cursor: pointer;
 }
 
 main nav {
@@ -89,6 +93,12 @@ main nav button:hover {
   color: White;
 }
 
+#disabled-button {
+  background: #dcdcdc;
+  color: grey;
+  cursor: default;
+}
+
 div.info {
   visibility: hidden;
   opacity: 0;
@@ -125,7 +135,75 @@ div.info h2 {
   font-size: 20px;
 }
 
+.startup {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all ease-in-out 0.1s;
+  transition: all ease-in-out 0.1s;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.startup input {
+  width: 100%;
+  padding: 1rem 0;
+  margin: 1rem 0;
+  outline: none;
+  font-weight: 300;
+  text-align: center;
+  border-radius: 0;
+  font-size: 16px;
+  border: 1px solid #dcdcdc;
+  cursor: text;
+}
+
+.startup .ethnicities {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.startup .ethnicities button {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border: 1px solid #dcdcdc;
+  padding: 1rem 4rem;
+  font-weight: 300;
+  font-size: 16px;
+  position: relative;
+}
+
+.startup .start-game-button {
+  display: block;
+  border: 1px solid #dcdcdc;
+  padding: 1rem 0;
+  margin: 1rem 0;
+  font-weight: 300;
+  font-size: 16px;
+  text-align: center;
+  -webkit-transition: all ease-in-out 0.1s;
+  transition: all ease-in-out 0.1s;
+}
+
+.startup .start-game-button:hover {
+  background: #efefef;
+}
+
 .game {
+  visibility: hidden;
   opacity: 0;
   -webkit-transition: all ease-in-out 0.3s;
   transition: all ease-in-out 0.3s;
@@ -186,7 +264,7 @@ div.info h2 {
   background-color: #efefef;
 }
 
-.game .buttons button:hover .description {
+.game .buttons button:hover .description, .startup button:hover .description {
   visibility: visible;
   display: inline-block;
   opacity: 1;
@@ -194,7 +272,7 @@ div.info h2 {
           transform: translateX(0);
 }
 
-.buttons .description {
+.description {
   -webkit-transform: translateX(20px);
           transform: translateX(20px);
   visibility: hidden;
@@ -230,7 +308,15 @@ div.info h2 {
   cursor: pointer;
 }
 
-.buttons button h3, .buttons button p {
+.startup .description {
+  right: -150px;
+  width: 150px;
+  min-height: 75px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+button h3, button p {
   cursor: pointer;
 }
 

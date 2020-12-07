@@ -9,12 +9,12 @@
     </head>
     <body>
         <header>
-            <h1><span>TinyCiv</span>.js</h1>
+            <a href="https://github.com/frriNz/TinyCiv.js" target="_blank"><span>TinyCiv</span>.js</a>
         </header>
         <main>
             <nav>
                 <button class="start-button" style="margin-left: 0;">New Game</button>
-                <button class="year-button">Next Year</button>
+                <button class="year-button" id="disabled-button">Next Year</button>
                 <button class="resign-button" style="margin-right: 0;">Resign</button>
             </nav>
             <div class="info">
@@ -22,6 +22,22 @@
                 <div class="log">
                     <p><span>Turn 0</span> Empire of Caledonia is founded.</p>
                 </div>
+            </div>
+            <div class="startup">
+                <input id="name-input" type="text" placeholder="Name Your Empire" autocomplete="off">
+                <div class="ethnicities">
+                    <button id="african-button"><p>African</p><div class="description">
+                        <h3>African</h3><p>African bonus african bonus african bonus</p>
+                    </div></button>
+                    <button id="european-button" style="margin: 0 1rem;"><p>European</p>
+                        <div class="description">
+                        <h3>European</h3>
+                    </div></button>
+                    <button id="asian-button"><p>Asian</p><div class="description">
+                        <h3>Asian</h3>
+                    </div></button>
+                </div>
+                <button class="start-game-button" id="disabled-button">Start Game</button>
             </div>
             <div class="game">
                 <h2>Empire of Caledonia is founded.</h2>
