@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>TinyCiv.js</title>
+        <link href="./styles/css/style.css" type="text/css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Finn Wohner">
+        <script src="./TinyCiv.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <h1><span>TinyCiv</span>.js</h1>
+        </header>
+        <main>
+            <nav>
+                <button class="start-button" style="margin-left: 0;">New Game</button>
+                <button class="year-button">Next Year</button>
+                <button class="resign-button" style="margin-right: 0;">Resign</button>
+            </nav>
+            <div class="info">
+                <h2>Turn 0 / Gold: 2000 / Population: 1 / Army: 0</h2>
+                <div class="log">
+                    <p><span>Turn 0</span> Empire of Caledonia is founded.</p>
+                </div>
+            </div>
+            <div class="game">
+                <h2>Empire of Caledonia is founded.</h2>
+                <div class="buttons">
+                    <div class="buildings" style="margin-right: 0.5rem;">
+                        <h3>Buy Buildings</h3>
+                        <button id="research-building">Research A New Building <span>(2500 Gold)</span></button>
+                    </div>
+                    <div class="units">
+                        <h3>Buy Units</h3>
+                        <button id="research-unit">Research A New Unit <span>(2500 Gold)</span></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
