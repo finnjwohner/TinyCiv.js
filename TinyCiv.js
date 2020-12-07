@@ -96,6 +96,7 @@ function CreateButton(object, parent) {
             object.ownedText.innerHTML = `${object.amount} Owned`;
             if(object.armyRating == undefined) {
                 object.price += Math.round(object.price / 2);
+                object.price = Math.ceil(object.price / 100) * 100;
             } else {
                 army += object.armyRating;
             }
@@ -279,23 +280,24 @@ function SetInfoText() {
 }
 
 function FormatGold(rawGold) {
-    string = rawGold.toString();
+    goldString = rawGold.toString();
     output = "";
 
-    if(string.length % 3 != 0) {
-        output = string.slice(0, string.length % 3);
-        string = string.slice(string.length % 3, string.length);
+    if(goldString.length % 3 != 0) {
+        output = goldString.slice(0, goldString.length % 3);
+        goldString = goldString.slice(goldString.length % 3, goldString.length);
         
-        if(string.length > 0) {
+        if(goldString.length > 0) {
             output += ",";
         }
     }
     
-    for(i = 0; i < string.length / 3; i++) {
-        output += string.slice(0, 3);
-        string = string.slice(3, string.length);
+    length = goldString.length / 3;
+    for(i = 0; i < length; i++) {
+        output += goldString.slice(0, 3);
+        goldString = goldString.slice(3, goldString.length);
 
-        if(string.length > 0) {
+        if(goldString.length > 0) {
             output += ",";
         }
     }
