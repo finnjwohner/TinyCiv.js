@@ -154,13 +154,15 @@ div.info h2 {
     visibility: visible;
     display: inline-block;
     opacity: 1;
+    transform: translateX(0);
 }
 
 .buttons .description {
+    transform: translateX(20px);
     visibility: hidden;
     display: none;
     opacity: 0;
-    transition: opacity ease-in-out 0.3s;
+    transition: opacity ease-in-out 0.3s, transform ease-in-out 0.2s;
     position: absolute;
     width: 200px;
     min-height: 100px;

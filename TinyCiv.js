@@ -85,7 +85,7 @@ function CreateButton(object, parent) {
     object.button = btn;
 
     btnText = document.createElement("p");
-    btnText.innerHTML = `${object.name} <span>(${object.price} Gold)</span>`
+    btnText.innerHTML = `${object.name} <span>(${FormatGold(object.price)} Gold)</span>`
 
     btn.appendChild(btnText);
 
@@ -99,8 +99,8 @@ function CreateButton(object, parent) {
             } else {
                 army += object.armyRating;
             }
-            object.button.children[1].innerHTML = `${object.name} <span>(${object.price} Gold)</span>`;
-            AddLog(`${object.name} bought for ${object.price}.`);
+            object.button.children[1].innerHTML = `${object.name} <span>(${FormatGold(object.price)} Gold)</span>`;
+            AddLog(`${object.name} bought for ${FormatGold(object.price)} Gold.`);
             SetInfoText();
         } else {
             SetMessage(`The empire cannot afford a ${object.name}.`, true);
@@ -147,14 +147,14 @@ function Research(building = true) {
             if(building) {
                 buildings[researchIndex].unlocked = true;
                 buildResearchCost *= 2;
-                btn.innerHTML = `Research A New Building <span>(${buildResearchCost} Gold)</span>`;
+                btn.innerHTML = `Research A New Building <span>(${FormatGold(buildResearchCost)} Gold)</span>`;
             } else {
                 units[researchIndex].unlocked = true;
                 unitResearchCost *= 2;
-                btn.innerHTML = `Research A New Unit <span>(${unitResearchCost} Gold)</span>`;
+                btn.innerHTML = `Research A New Unit <span>(${FormatGold(unitResearchCost)} Gold)</span>`;
             }
             CreateButton(buyableArray[researchIndex], parentElement);
-            AddLog(`${buyableArray[researchIndex].name} researched for ${researchCost} Gold.`);
+            AddLog(`${buyableArray[researchIndex].name} researched for ${FormatGold(researchCost)} Gold.`);
             gold -= researchCost;
             SetInfoText();
         } else {
@@ -177,8 +177,8 @@ function StartGame() {
 
         buildResearchCost = 2500;
         unitResearchCost = 2500;
-        buildingResearchBtn.innerHTML = `Research A New Building <span>(${buildResearchCost} Gold)</span>`;
-        unitResearchBtn.innerHTML = `Research A New Unit <span>(${unitResearchCost} Gold)</span>`;
+        buildingResearchBtn.innerHTML = `Research A New Building <span>(${FormatGold(buildResearchCost)} Gold)</span>`;
+        unitResearchBtn.innerHTML = `Research A New Unit <span>(${FormatGold(unitResearchCost)} Gold)</span>`;
 
         ResetBuys();
 
@@ -271,8 +271,34 @@ function AddLog(message) {
     gameMessage.style.color = 'black';
     gameMessage.innerHTML = message;
     log.scrollBy(0, '100px');
+    log.scrollTop = log.scrollHeight;
 }
 
 function SetInfoText() {
-    infoText.innerHTML = `Turn ${year} / Gold: ${gold} / Population: ${population} / Army: ${army}`;
+    infoText.innerHTML = `Turn ${year} / Gold: ${FormatGold(gold)} / Population: ${population} / Army: ${army}`;
+}
+
+function FormatGold(rawGold) {
+    string = rawGold.toString();
+    output = "";
+
+    if(string.length % 3 != 0) {
+        output = string.slice(0, string.length % 3);
+        string = string.slice(string.length % 3, string.length);
+        
+        if(string.length > 0) {
+            output += ",";
+        }
+    }
+    
+    for(i = 0; i < string.length / 3; i++) {
+        output += string.slice(0, 3);
+        string = string.slice(3, string.length);
+
+        if(string.length > 0) {
+            output += ",";
+        }
+    }
+
+    return output;
 }
