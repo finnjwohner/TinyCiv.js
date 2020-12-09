@@ -1,292 +1,325 @@
-let gameStarted = false;
-let gameSetup = false;
+//// HTML Inputs ////
+/// Nav Inputs ///
+const navNewGameBtn = document.querySelector(".new-game-btn");
+const navNextYearBtn = document.querySelector(".next-year-btn");
+const navResignBtn = document.querySelector(".resign-btn");
+/// Setup Inputs ///
+// Ethnicity buttons
+const ethnAfricanBtn = document.querySelector(".african-btn");
+const ethnEuroBtn = document.querySelector(".euro-btn");
+const ethnAsianBtn = document.querySelector(".asian-btn");
+// Empire Name Input
+const empireNameInput = document.querySelector(".empire-name-input");
+// Start Game Button
+const startGameBtn = document.querySelector(".start-game-btn");
+//// HTML Displays ////
+/// Info Displays ///
+const infoEmpireName = document.querySelector(".info-empire-name");
+const infoText = document.querySelector(".info-text");
+const infoLog = document.querySelector(".info-log");
+const infoMsg = document.querySelector(".info-msg");
+/// Main Containers ///
+const conGame = document.querySelector(".game");
+const conSetup = document.querySelector(".setup");
+// Secondary Containers
+const conBuyBuildings = document.querySelector(".buy-buildings-panel");
+const conBuyUnits = document.querySelector(".buy-units-panel");
+// Buttons
+const researchBuildingBtn = document.querySelector(".research-building-btn");
+const researchUnitBtn = document.querySelector(".research-unit-btn");
 
-let year = 0;
+//// Game variables ////
+let gameSetup = false;
+let ethn = undefined; // 0 = african, 1 = european, 2 = asian
+let empireName = undefined;
+
+let year = 1;
 let gold = 2000;
 let population = 1;
 let army = 0;
 
-let buildResearchCost = 2500;
-let unitResearchCost = 2500;
+let researchCosts = [2500, 2500];
 
-const navBtns = document.querySelectorAll('main nav button');
-const startBtn = document.querySelector('main nav button.start-button');
-const yearBtn = document.querySelector('main nav button.year-button');
-const resignBtn = document.querySelector('main nav button.resign-button');
-const info = document.querySelector('div.info');
-const infoText = document.querySelector('div.info h2');
-const log = document.querySelector('div.log');
-const game = document.querySelector('.game');
-const gameMessage = document.querySelector('.game h2');
-const buildingsCon = document.querySelector('.buttons .buildings');
-const unitsCon = document.querySelector('.buttons .units');
-const buildingResearchBtn = document.querySelector('#research-building');
-const unitResearchBtn = document.querySelector('#research-unit');
-const startup = document.querySelector('.startup');
-
-const nameInput = document.querySelector('#name-input');
-const africanButton = document.querySelector('#african-button');
-const europeanButton = document.querySelector('#european-button');
-const asianButton = document.querySelector('#asian-button');
-const startGameButton = document.querySelector('.start-game-button');
-let ethnicity = undefined;
-let empireName = undefined;
-
-africanButton.addEventListener('click', SelectAfrican);
-europeanButton.addEventListener('click', SelectEuropean);
-asianButton.addEventListener('click', SelectAsian);
-
-startBtn.addEventListener('click', StartGame);
-resignBtn.addEventListener('click', Resign);
-yearBtn.addEventListener('click', NextYear);
-
-buildingResearchBtn.addEventListener('click', ResearchBuilding);
-unitResearchBtn.addEventListener('click', ResearchUnit);
-
-class Building {
-    constructor(name, description, price, unlocked = false) {
+//// Unit & Building classes ////
+class Buyable {
+    constructor(name, desc, price, unlocked = false) {
         this.name = name;
-        this.description = description;
-        this.descriptionText;
-        this.price = price;
-        this.unlocked = unlocked
-        this.amount = 0;
-        this.button;
-        this.ownedText;
-    }
-}
-
-class Unit {
-    constructor(name, description, price, armyRating, unlocked = false) {
-        this.name = name;
-        this.description = description;
-        this.descriptionText;
+        this.desc = desc;
         this.price = price;
         this.unlocked = unlocked;
-        this.armyRating = armyRating;
         this.amount = 0;
-        this.ownedText;
+
+        this.type = undefined;
+
+        this.btn = undefined;
+        this.textBtn = undefined;
+        this.textAmount = undefined;
+        this.textDesc = undefined;
     }
 }
 
-let buildings = [];
-let units = [];
-
-function ResetBuys() {
-    buildings = [new Building("Granary", "A granary provides +1 population per year.", 1200, true),
-                new Building("Market", "A market provides +100 gold per population every year.", 800, true),
-                new Building("Barracks", "A barracks increases the army given by each unit.", 2000, false),
-                new Building("Castle", "A castle provides +1 army per year.", 5000, false)];
-    units = [new Unit("Warrior", "The warrior provides +1 army.", 800, 1, true),
-            new Unit("Archer", "The archer provides +2 army.", 1200, 2, false),
-            new Unit("Knight", "The knight provides +4 army.", 2000, 4, false),];
+class Building extends Buyable {
+    constructor(name, desc, price, unlocked = false) {
+        super(name, desc, price, unlocked);
+        this.type = Building;
+    }
 }
 
-function CreateButton(object, parent) {
-    btn = document.createElement("button");
-    parent.appendChild(btn);
+class Unit extends Buyable {
+    constructor(name, desc, price, armyRating = undefined, unlocked = false) {
+        super(name, desc, price, unlocked);
+        this.armyRating = armyRating;
+        this.type = Unit;
+    }
+}
 
-    descDiv = document.createElement("div");
-    descDiv.classList.add("description");
-    btn.appendChild(descDiv);
+function SetBuyables() {
+    buildings = [new Building("Granary", "A granary provides +1 population per year.", 1200, true),
+                 new Building("Market", "A market provides +100 gold per population every year.", 800, true),
+                 new Building("Barracks", "A barracks increases the army given by each unit.", 2000),
+                 new Building("Castle", "A castle provides +1 army per year.", 5000, false)];
 
-    ownedText = document.createElement("h3");
-    ownedText.innerHTML = `${object.amount} Owned`;
-    object.ownedText = ownedText;
-    descDiv.appendChild(ownedText);
+    units = [new Unit("Warrior", undefined, 800, 1, true),
+             new Unit("Archer", undefined, 1200, 2),
+             new Unit("Knight", undefined, 2000, 4),
+             new Unit("Scout", "Scouts gather intelligence on enemies.", 15000)];
+}
 
-    descText = document.createElement("p");
-    descText.innerHTML = object.description;
-    object.descriptionText = descText;
-    descDiv.appendChild(descText);
+//// Events ////
+/// Nav Buttons ///
+navNewGameBtn.addEventListener('click', NewGame);
+navNextYearBtn.addEventListener('click', NextYear);
+navResignBtn.addEventListener('click', ResignGame);
+/// Ethnicity Buttons & Typing ///
+ethnAfricanBtn.addEventListener('click', SelectEthn0);
+ethnEuroBtn.addEventListener('click', SelectEthn1);
+ethnAsianBtn.addEventListener('click', SelectEthn2);
+addEventListener('keyup', CanSetup);
+// Start game button
+startGameBtn.addEventListener('click', StartGame);
+// Main game buttons
+researchBuildingBtn.addEventListener('click', ResearchBuilding);
+researchUnitBtn.addEventListener('click', ResearchUnit);
 
-    object.button = btn;
 
-    btnText = document.createElement("p");
-    btnText.innerHTML = `${object.name} <span>(${FormatNum(object.price)} Gold)</span>`
+function NewGame() {
+    // Make other nav buttons visible
+    navNextYearBtn.classList.remove("nondisplay");
+    navResignBtn.classList.remove("nondisplay");
 
-    btn.appendChild(btnText);
+    // Reset game variables to their defaults
+    ResetDefaults();
 
-    btn.onmouseover = () => {
-        if(object.armyRating != undefined) {
-            object.descriptionText.innerHTML = `The ${object.name} provides +${object.armyRating * (buildings[2].amount + 1)} army.`;
-            if (buildings[2].amount > 0) {
-                object.descriptionText.innerHTML += ` <span>(+${buildings[2].amount * object.armyRating} due to barracks.)</span>`
+    // Animate in setup container
+    conSetup.classList.remove("nondisplay");
+    conSetup.classList.remove("hidden");
+
+    AddInfoLog("New game started.");
+}
+
+function ResignGame() {
+    // Make other nav buttons hidden
+    navNextYearBtn.classList.add("nondisplay");
+    navResignBtn.classList.add("nondisplay");
+
+    // Remove all containers
+    conSetup.classList.add("hidden");
+    conGame.classList.add("hidden");
+}
+
+function ResetDefaults() {
+    // Game vars
+    gameSetup = false;
+    empireName = undefined;
+    ethn = undefined;
+
+    year = 1;
+    gold = 2000;
+    population = 1;
+    army = 0;
+
+    researchCosts = [2500, 2500];
+    researchBuildingBtn.children[0].innerHTML = `Research A New Building <b>(${FormatNum(researchCosts[0])} Gold)</b>`;
+    researchUnitBtn.children[0].innerHTML = `Research A New Unit <b>(${FormatNum(researchCosts[1])} Gold)</b>`;
+
+    SetBuyables();
+
+    // Inputs
+    empireNameInput.value = "";
+    SelectEthn(undefined);
+    navNextYearBtn.classList.add("disabled");
+
+    // Remove all logs
+    while(infoLog.children.length > 0) {
+        infoLog.children[0].remove();
+    }
+
+    // Remove all buy buttons
+    while(conBuyBuildings.children.length > 1) {
+        conBuyBuildings.children[1].remove();
+    }
+    while(conBuyUnits.children.length > 1) {
+        conBuyUnits.children[1].remove();
+    }
+
+    // Add buy buttons
+    buildings.forEach(building => {
+        if(building.unlocked) {
+            CreateBuyButton(building, conBuyBuildings);
+        }
+    });
+    units.forEach(unit => {
+        if(unit.unlocked) {
+            CreateBuyButton(unit, conBuyUnits);
+        }
+    });
+
+    // Reset setup container
+    CanSetup();
+
+    SetInfoText();
+}
+
+// If both ethnicity & empire name have been set, allow
+// user to press the start game button
+function CanSetup() {
+    if(!gameSetup) {
+        if(empireNameInput.value.trim() != "" && ethn != undefined) {
+            startGameBtn.classList.remove("disabled");
+            return true;
+        } else {
+            startGameBtn.classList.add("disabled");
+            return false;
+        }
+    } else {
+        return true;
+    }
+}
+
+// I can't figure out how to pass parameters through addEventListener,
+// so I'm using 3 different functions to pass those parameters.
+// I know this is terrible & hacky, no need to tell me.
+function SelectEthn0() {
+    SelectEthn(0);
+}
+function SelectEthn1() {
+    SelectEthn(1);
+}
+function SelectEthn2() {
+    SelectEthn(2);
+}
+
+// For indexes: 0 = african, 1 = european, 2 = asian
+function SelectEthn(index) {
+    // Set all buttons to unselected
+    ethnAfricanBtn.classList.remove("selected");
+    ethnEuroBtn.classList.remove("selected");
+    ethnAsianBtn.classList.remove("selected");
+
+    ethn = index;
+    switch(index) {
+        case 0:
+            ethnAfricanBtn.classList.add("selected");
+            break;
+        case 1:
+            ethnEuroBtn.classList.add("selected");
+            break;
+        case 2:
+            ethnAsianBtn.classList.add("selected");
+            break;
+        default:
+            break;
+    }
+
+    CanSetup();
+}
+
+function StartGame() {
+    if(CanSetup()) {
+        empireName = empireNameInput.value.trim();
+
+        ethnNoun = "";
+        switch(ethn) {
+            case 0:
+                ethnNoun = "Africa";
+                break;
+            case 1:
+                ethnNoun = "Europe";
+                break;
+            case 2:
+                ethnNoun = "Asia";
+                break;
+            default:
+                break;
+        }
+
+        AddInfoLog(`${empireName} is founded in ${ethnNoun}.`);
+        infoEmpireName.innerHTML = empireName;
+
+        conGame.classList.remove("hidden");
+        conSetup.classList.add("nondisplay");
+
+        navNextYearBtn.classList.remove("disabled");
+
+        gameSetup = true;
+    }
+}
+
+function CreateBuyButton(object, parent) {
+    object.btn = document.createElement("button");
+    object.btn.id = "fill";
+    object.textBtn = document.createElement("span");
+    object.textBtn.innerHTML = `${object.name} <b>(${FormatNum(object.price)} Gold)</b>`;
+    parent.appendChild(object.btn);
+    object.btn.appendChild(object.textBtn);
+
+    desc = document.createElement("div");
+    desc.classList.add("desc");
+    object.btn.appendChild(desc);
+
+    object.textAmount = document.createElement("h2");
+    object.textAmount.innerHTML = `${object.amount} Owned`;
+    desc.appendChild(object.textAmount);
+
+    object.textDesc = document.createElement("h3");
+    object.textDesc.innerHTML = object.desc;
+    desc.appendChild(object.textDesc);
+
+    object.btn.onmouseover = () => {
+        if(object.type == Unit) {
+            if(object.desc == undefined) {
+                object.textDesc.innerHTML = `The ${object.name} provides +${object.armyRating * (buildings[2].amount + 1)} army.`;
+                if(buildings[2].amount > 0) {
+                    barracksModifier = object.armyRating * (buildings[2].amount);
+                    object.textDesc.innerHTML += `<b> (+${barracksModifier} due to barracks).</b>`
+                }
+            } else {
+                object.textDesc.innerHTML = object.desc;
             }
         }
     }
 
-    btn.onclick = () => {
+    object.btn.onclick = () => {
         if (gold >= object.price) {
             gold -= object.price;
             object.amount++;
-            object.ownedText.innerHTML = `${object.amount} Owned`;
-            if(object.armyRating == undefined) {
-                object.price += Math.round(object.price / 2);
-                object.price = Math.ceil(object.price / 100) * 100;
+
+            object.textAmount.innerHTML = `${object.amount} Owned`;
+            if(object.type == Building) {
+                object.price += Math.ceil(object.price / 200) * 100;
+                object.textBtn.innerHTML = `${object.name} <b>(${FormatNum(object.price)} Gold)</b>`;
             } else {
-                army += object.armyRating * (buildings[2].amount + 1);
+                if(object.armyRating != undefined) {
+                    army += object.armyRating * (1 + buildings[2].amount);
+                }
             }
-            object.button.children[1].innerHTML = `${object.name} <span>(${FormatNum(object.price)} Gold)</span>`;
-            AddLog(`${object.name} bought for ${FormatNum(object.price)} Gold.`);
+
+            AddInfoLog(`${object.name} bought for ${FormatNum(object.price)} Gold.`);
             SetInfoText();
         } else {
-            SetMessage(`The empire cannot afford a ${object.name}.`, true);
+            SetMsg(`The empire cannot afford to buy a ${object.name}.`, true);
         }
     }
-}
-
-function ResearchBuilding() {
-    Research(true);
-}
-
-function ResearchUnit() {
-    Research(false);
-}
-
-function Research(building = true) {
-    if (!gameStarted) { return; }
-
-    btn = unitResearchBtn;
-    buyableArray = units;
-    researchCost = unitResearchCost;
-    parentElement = unitsCon;
-    itemString = "unit";
-    if(building) {
-        btn = buildingResearchBtn;
-        buyableArray = buildings;
-        researchCost = buildResearchCost;
-        parentElement = buildingsCon;
-        itemString = "building";
-    }
-
-    canResearch = false;
-    researchIndex = undefined;
-    for(i = 0; i < buyableArray.length; i++) {
-        if(!buyableArray[i].unlocked) {
-            canResearch = true;
-            researchIndex = i;
-            break;
-        }
-    }
-
-    if(canResearch) {
-        if(gold >= researchCost) {
-            if(building) {
-                buildings[researchIndex].unlocked = true;
-                buildResearchCost *= 2;
-                btn.innerHTML = `Research A New Building <span>(${FormatNum(buildResearchCost)} Gold)</span>`;
-            } else {
-                units[researchIndex].unlocked = true;
-                unitResearchCost *= 2;
-                btn.innerHTML = `Research A New Unit <span>(${FormatNum(unitResearchCost)} Gold)</span>`;
-            }
-            CreateButton(buyableArray[researchIndex], parentElement);
-            AddLog(`${buyableArray[researchIndex].name} researched for ${FormatNum(researchCost)} Gold.`);
-            gold -= researchCost;
-            SetInfoText();
-        } else {
-            SetMessage(`The empire cannot afford to research a new ${itemString}.`, true);
-        }
-    } else {
-        SetMessage(`There are no more ${itemString}s to research.`, true);
-    }
-}
-
-function SelectAfrican() {
-    SelectEthnicity(0);
-}
-
-function SelectEuropean() {
-    SelectEthnicity(1);
-}
-
-function SelectAsian() {
-    SelectEthnicity(2);
-}
-
-function SelectEthnicity(selected) {
-    switch(selected) {
-        case 0:
-            ethnicity = "african";
-            africanButton.style.backgroundColor = '#efefef';
-            europeanButton.style.backgroundColor = '#fff';
-            asianButton.style.backgroundColor = '#fff';
-            CheckCanStart();
-            break;
-        case 1:
-            ethnicity = "european";
-            europeanButton.style.backgroundColor = '#efefef';
-            asianButton.style.backgroundColor = '#fff';
-            africanButton.style.backgroundColor = '#fff';
-            CheckCanStart();
-            break;
-        case 2:
-            ethnicity = "asian";
-            asianButton.style.backgroundColor = '#efefef';
-            africanButton.style.backgroundColor = '#fff';
-            europeanButton.style.backgroundColor = '#fff';
-            CheckCanStart();
-            break;
-    }
-}
-
-function Resign() {
-    if(gameStarted) {
-        gameStarted = false;
-        gameSetup = false;
-
-        startup.style.opacity = 0;
-        startup.style.visibility = 'hidden';
-
-        navBtns.forEach(navBtn => {
-            navBtn.style.display = 'none';
-        })
-
-        document.querySelector('.start-button').style.display = 'inline-block';
-        info.style.maxHeight = 0;
-        info.style.visibility = 'hidden';
-        info.style.opacity = 1;
-
-        game.style.opacity = 0;
-    }
-}
-
-function NextYear() {
-    if(gameSetup) {
-        year++;
-
-        population += buildings[0].amount;
-        gold += (buildings[1].amount * 100) * population;
-        army += buildings[3].amount;
-    
-        gameMessage.style.color = 'black';
-        gameMessage.innerHTML = `Year ${year} started.`;
-        SetInfoText();
-    }
-}
-
-function SetMessage(message, alert = false) {
-    gameMessage.innerHTML = message;
-    if(alert) {
-        gameMessage.style.color = 'red';
-    } else {
-        gameMessage.style.color = 'black';
-    }
-}
-
-function AddLog(message) {
-    logP = document.createElement("p");
-    logP.innerHTML = `<span>Year ${year}</span> ${message}`;
-    log.appendChild(logP);
-    gameMessage.style.color = 'black';
-    gameMessage.innerHTML = message;
-    log.scrollBy(0, '100px');
-    log.scrollTop = log.scrollHeight;
-}
-
-function SetInfoText() {
-    infoText.innerHTML = `Year ${year} / Gold: ${FormatNum(gold)} / Population: ${FormatNum(population)} / Army: ${FormatNum(army)}`;
 }
 
 function FormatNum(rawNum) {
@@ -315,119 +348,92 @@ function FormatNum(rawNum) {
     return output;
 }
 
-function ResetDefaults() {
-    year = 0;
-    gold = 2000;
-    population = 1;
-    army = 0;
+function AddInfoLog(msg) {
+    // Create new p element with the msg
+    let newLog = document.createElement("p");
+    newLog.innerHTML = `<b>Year ${year}</b> ${msg}`;
+    infoLog.appendChild(newLog);
 
-    ethnicity = undefined;
-    empireName = undefined;
-    yearBtn.id = "disabled-button";
+    // Set main info message to the msg
+    SetMsg(msg);
 
-    asianButton.style.backgroundColor = '#fff';
-    africanButton.style.backgroundColor = '#fff';
-    europeanButton.style.backgroundColor = '#fff';
-    CheckCanStart();
-
-    buildResearchCost = 2500;
-    unitResearchCost = 2500;
-    buildingResearchBtn.innerHTML = `Research A New Building <span>(${FormatNum(buildResearchCost)} Gold)</span>`;
-    unitResearchBtn.innerHTML = `Research A New Unit <span>(${FormatNum(unitResearchCost)} Gold)</span>`;
-
-    // Reset all buildings & units to their default states (not unlocked basically)
-    ResetBuys();
-
-    // Get & delete all existing log paragraph elements
-    logPs = log.children;
-    logPsLength = logPs.length;
-    for (i = 0; i < logPsLength; i++) {
-        logPs[0].remove();
-    }
-
-    // Get & reset all existing buildings
-    buildingsBtns = buildingsCon.children;
-    buildingsLength = buildingsBtns.length - 2;
-    for (i = 0; i < buildingsLength; i++) {
-        buildingsBtns[2].remove();
-    }
-    buildings.forEach(building => {
-        if (building.unlocked) {
-            CreateButton(building, buildingsCon);
-        }
-    })
-
-    // Get & reset all existing units
-    unitsBtns = unitsCon.children;
-    unitsLength = unitsBtns.length - 2;
-    for (i = 0; i < unitsLength; i++) {
-        unitsBtns[2].remove();
-    }
-    units.forEach(unit => {
-        if (unit.unlocked) {
-            CreateButton(unit, unitsCon);
-        }
-    })
+    // Make sure the info log is scrolled down
+    infoLog.scrollTop = infoLog.scrollHeight;
 }
 
-addEventListener('keyup', CheckCanStart);
+function SetInfoText() {
+    infoText.innerHTML = `Year ${year} / Gold: ${FormatNum(gold)} / Population: ${population} / Army: ${army}`;
+}
 
-function CheckCanStart() {
-    if (ethnicity != undefined && nameInput.value.trim() != "") {
-        startGameButton.removeAttribute("id");
-        return true;
+function SetMsg(msg, red = false) {
+    infoMsg.style.color = red ? "red" : "black";
+    infoMsg.innerHTML = msg;
+}
+
+function ResearchBuilding() {
+    canResearch = false;
+    index = undefined;
+
+    for(i = 0; i < buildings.length; i++) {
+        if(!buildings[i].unlocked) {
+            canResearch = true;
+            index = i;
+            break;
+        }
+    }
+
+    if(canResearch) {
+        if(gold >= researchCosts[0]) {
+            gold -= researchCosts[0];
+            buildings[index].unlocked = true;
+            CreateBuyButton(buildings[index], conBuyBuildings);
+            SetInfoText(`${buildings[index].name} researched for ${FormatNum(researchCosts[0])}`);
+            researchCosts[0] *= 2;
+            researchBuildingBtn.children[0].innerHTML = `Research A New Building <b>(${FormatNum(researchCosts[0])} Gold)</b>`;
+        } else {
+            SetMsg("The empire cannot afford to research a new building.", true);
+        }
     } else {
-        startGameButton.id = "disabled-button";
-        return false;
+        SetMsg("There are no more buildings to research.", true);
     }
 }
 
-startGameButton.addEventListener('click', SetupGame);
+function ResearchUnit() {
+    canResearch = false;
+    index = undefined;
 
-function SetupGame() {
-    if (CheckCanStart()) {
-        startup.style.opacity = 0;
-        startup.style.visibility = 'hidden';
-        startup.style.display = 'none';
+    for(i = 0; i < units.length; i++) {
+        if(!units[i].unlocked) {
+            canResearch = true;
+            index = i;
+            break;
+        }
+    }
 
-        game.style.opacity = 1;
-        game.style.visibility = 'visible';
-
-        empireName = nameInput.value.trim();
-
-        AddLog(`${empireName} founded.`);
-
-        gameSetup = true;
-        yearBtn.removeAttribute("id");
+    if(canResearch) {
+        if(gold >= researchCosts[1]) {
+            gold -= researchCosts[1];
+            units[index].unlocked = true;
+            CreateBuyButton(units[index], conBuyUnits);
+            SetInfoText(`${units[index].name} researched for ${FormatNum(researchCosts[1])}`);
+            researchCosts[1] *= 2;
+            researchUnitBtn.children[0].innerHTML = `Research A New Unit <b>(${FormatNum(researchCosts[1])} Gold)</b>`;
+        } else {
+            SetMsg("The empire cannot afford to research a new unit.", true);
+        }
+    } else {
+        SetMsg("There are no more units to research.", true);
     }
 }
 
-function StartGame() {
-    if (!gameStarted) {
-        gameStarted = true;
+function NextYear() {
+    if(gameSetup) {
+        year++;
 
-        // Set values to their defaults
-        ResetDefaults();
+        population += buildings[0].amount;
+        gold += population * buildings[1].amount * 100;
 
-        // Set info text to represent the current values
         SetInfoText();
-
-        AddLog("New game started.")
-
-        // Display all navigation buttons (new game, next year, resign)
-        navBtns.forEach(navBtn => {
-            navBtn.style.display = 'inline-block';
-        });
-
-        // Animate in the info panel (info text & log box)
-        info.style.visibility = 'visible';
-        info.style.maxHeight = '300px';
-        info.style.opacity = 1;
-
-        // Setup game (get user details like empire name etc.)
-        nameInput.value = "";
-        startup.style.opacity = 1;
-        startup.style.visibility = 'visible';
-        startup.style.display = 'flex';
+        SetMsg(`Year ${year} started.`);
     }
 }

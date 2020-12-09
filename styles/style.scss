@@ -1,20 +1,18 @@
+/* Styles for every element */
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', 'Arial', sans-serif;
+    font-family: "Roboto", "Arial", sans-serif;
+}
+
+/* Styles for most elements */
+html {
     cursor: default;
 }
 
+/* Change the background colour of selected items to yellow */
 ::selection {
     background: yellow;
-}
-
-button {
-    border: none;
-    border-radius: 0;
-    outline: none;
-    background-color: white;
-    cursor: pointer;
 }
 
 body {
@@ -22,242 +20,192 @@ body {
     margin: auto;
 }
 
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    border-bottom: 1px solid #dcdcdc;
-}
-
 a {
-    font-weight: 400;
-    font-size: 40px;
+    color: #000;
     text-decoration: none;
-    color: black;
     cursor: pointer;
 }
 
-a span {
-    font-weight: 600;
-    cursor: pointer;
-}
-
-main nav {
-    padding: 1rem 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-main nav button {
-    display: none;
-    flex: 1;
-    padding: 0.25rem 0;
-    background: LimeGreen;
-    font-weight: 600;
-    transition: all ease-in-out 0.1s;
-}
-
-main nav button.start-button {
-    display: inline-block;
-}
-
-main nav .year-button {
-    flex: 2;
-}
-
-main nav button:hover {
-    background: Lime;
-    color: White;
-}
-
-#disabled-button {
-    background: #dcdcdc;
-    color: grey;
-    cursor: default;
-}
-
-div.info {
-    visibility: hidden;
-    opacity: 0;
-    max-height: 0px;
-    overflow: hidden;
-    transition: all ease-in-out 0.3s;
-}
-
-div.log {
-    height: 75px;
-    overflow-y: scroll;
+button, input {
+    position: relative;
+    background: #fff;
+    outline: none;
     border: 1px solid #dcdcdc;
-}
-
-div.log p {
     font-weight: 300;
+    font-size: 16px;
+    padding: 0.25rem;
     transition: background ease-in-out 0.1s;
+    cursor: pointer;
 }
 
-div.log p span {
-    font-weight: 600;
-}
-
-div.log p:hover {
+button:hover {
     background: #eee;
 }
 
-div.info h2 {
-    padding-bottom: 1rem;
+input[type=text] {
     text-align: center;
+    cursor: text;
+}
+
+h2 {
+    font-weight: 400;
+}
+
+h3 {
     font-weight: 300;
     font-size: 20px;
 }
 
-.startup {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-    transition: all ease-in-out 0.1s;
-    flex-direction: column;
-    align-items: stretch;
-}
+/* Specific IDs */
 
-.startup input {
-    width: 100%;
-    padding: 1rem 0;
-    margin: 1rem 0;
-    outline: none;
-    font-weight: 300;
-    text-align: center;
-    border-radius: 0;
-    font-size: 16px;
-    border: 1px solid #dcdcdc;
-    cursor: text;
-}
-
-.startup .ethnicities {
+#flex {
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
-.startup .ethnicities button {
+#fill {
     flex: 1;
-    border: 1px solid #dcdcdc;
-    padding: 1rem 4rem;
-    font-weight: 300;
-    font-size: 16px;
-    position: relative;
+    width: 100%;
 }
 
-.startup .start-game-button {
-    display: block;
-    border: 1px solid #dcdcdc;
-    padding: 1rem 0;
-    margin: 1rem 0;
-    font-weight: 300;
-    font-size: 16px;
+#center-text {
     text-align: center;
+}
+
+/* Specific classes */
+
+.disabled {
+    background: #dcdcdc !important;
+    color: #888 !important;
+    cursor: default;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.nondisplay {
+    display: none;
+}
+
+.selected {
+    background: #eee;
+}
+
+.transition {
     transition: all ease-in-out 0.1s;
 }
 
-.startup .start-game-button:hover {
-    background: #efefef;
-}
+/* More specific rules */
 
-.game {
-    visibility: hidden;
-    opacity: 0;
-    transition: all ease-in-out 0.3s;
-}
-
-.game h2 {
+header {
+    font-size: 250%; /* Make the TinyCiv.js text bigger */
     text-align: center;
-    margin: 1rem 0;
-    font-weight: 300;
+    margin-bottom: 1rem 0;
+    padding: 2rem 0;
+    border-bottom: 1px solid #dcdcdc;
 }
 
-.game .buttons {
+nav {
     display: flex;
+    margin: 1rem 0;
 }
 
-.game .buttons h3 {
-    text-align: center;
-    font-weight: 400;
-    margin: 0.5rem 0;
-}
-
-.game .buttons .buildings, .game .buttons .units {
+nav button {
     flex: 1;
-    width: 200px;
+    border: none;
+    font-weight: 600;
+    font-size: 13px;
+    background: LimeGreen;
+    transition: all ease-in-out 0.1s;
+}
+
+nav button:hover {
+    background: Lime;
+    color: #fff;
+}
+
+/* Very specific rules */
+
+.next-year-btn {
+    flex: 2;
+}
+
+.setup-btn {
+    padding: 1rem 0;
+}
+
+.info-log {
+    border: 1px solid #dcdcdc;
+    height: 75px;
+    margin: 1rem 0;
+    overflow-y: scroll;
+}
+
+.info-log p {
+    transition: background ease-in-out 0.1s;
+    padding: 0 1rem;
+}
+
+.info-log p:hover {
+    background: #eee;
+}
+
+.panel-row {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.panel {
+    border: 1px solid #dcdcdc;
     display: flex;
     flex-direction: column;
-    border: 1px solid #dcdcdc;
 }
 
-.game .buttons button {
-    flex: 1;
-    border-top: solid 1px #dcdcdc;
-    font-weight: 300;
-    font-size: 16px;
-    padding: 0.5rem 0;
-    transition: background ease-in-out 0.1s;
-    position: relative;
+.panel button {
+    border: none;
+    border-top: 1px solid #dcdcdc;
 }
 
-.game .buttons button span {
+.panel h4, .header-btn {
     font-weight: 400;
-    cursor: pointer;
+    font-size: 19px;
+    padding: 0.25rem 0;
 }
 
-.game .buttons button:hover {
-    background-color: #efefef;
+.header-btn {
+    border: none;
 }
 
-.game .buttons button:hover .description, .startup button:hover .description {
-    visibility: visible;
-    display: inline-block;
+button:hover .desc {
     opacity: 1;
     transform: translateX(0);
+    visibility: visible;
 }
 
-.description {
-    transform: translateX(20px);
+.desc {
     visibility: hidden;
-    display: none;
     opacity: 0;
-    transition: opacity ease-in-out 0.3s, transform ease-in-out 0.2s;
-    position: absolute;
-    width: 200px;
-    min-height: 100px;
-    padding: 0.25rem;
-    background-color: #fff;
-    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
-    top: -20px;
-    right: -130px;
+    transform: translateX(20px);
     z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.startup .description {
-    right: -150px;
-    width: 150px;
+    padding: 0.25rem;
+    width: 175px;
     min-height: 75px;
-    padding: 0.5rem;
-    cursor: pointer;
+    position: absolute;
+    background: #fff;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    top: -15px;
+    right: -60px;
+    transition: all ease-in-out 0.1s;
 }
 
-button h3, button p {
-    cursor: pointer;
+.desc h2, .desc h3 {
+    font-size: 16px;
 }
 
-.buildings {
-    position: relative;
-}
-
+/* Roboto font at font weights 300, 400, 500, 700 */
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
