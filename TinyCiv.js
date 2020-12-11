@@ -77,7 +77,7 @@ function SetBuyables() {
     buildings = [new Building("Granary", "A granary provides +1 population per year.", 1200, true),
                  new Building("Market", "A market provides +100 gold per population every year.", 800, true),
                  new Building("Barracks", "A barracks increases the army given by each unit.", 2000),
-                 new Building("Castle", "A castle provides +1 army per year.", 5000, false)];
+                 new Building("Castle", "A castle provides +5 army per year.", 5000, false)];
 
     units = [new Unit("Warrior", undefined, 800, 1, true),
              new Unit("Archer", undefined, 1200, 2),
@@ -162,18 +162,6 @@ function ResetDefaults() {
         conBuyUnits.children[1].remove();
     }
 
-    // Add buy buttons
-    buildings.forEach(building => {
-        if(building.unlocked) {
-            CreateBuyButton(building, conBuyBuildings);
-        }
-    });
-    units.forEach(unit => {
-        if(unit.unlocked) {
-            CreateBuyButton(unit, conBuyUnits);
-        }
-    });
-
     // Reset setup container
     CanSetup();
 
@@ -242,16 +230,35 @@ function StartGame() {
         switch(ethn) {
             case 0:
                 ethnNoun = "Africa";
+                units.forEach(unit => {
+                    if(unit.armyRating != undefined) {
+                        unit.armyRating++;
+                    }
+                });
                 break;
             case 1:
                 ethnNoun = "Europe";
+                buildings[1].desc += " <b>(+50 Gold due to Europe bonus)</b>";
                 break;
             case 2:
                 ethnNoun = "Asia";
+                buildings[0].desc += " <b>(+1 Population due to Asia bonus)</b>";
                 break;
             default:
                 break;
         }
+
+        // Add buy buttons
+        buildings.forEach(building => {
+            if(building.unlocked) {
+                CreateBuyButton(building, conBuyBuildings);
+            }
+        });
+        units.forEach(unit => {
+            if(unit.unlocked) {
+                CreateBuyButton(unit, conBuyUnits);
+            }
+        });
 
         AddInfoLog(`${empireName} is founded in ${ethnNoun}.`);
         infoEmpireName.innerHTML = empireName;
@@ -288,7 +295,7 @@ function CreateBuyButton(object, parent) {
     object.btn.onmouseover = () => {
         if(object.type == Unit) {
             if(object.desc == undefined) {
-                object.textDesc.innerHTML = `The ${object.name} provides +${object.armyRating * (buildings[2].amount + 1)} army.`;
+                object.textDesc.innerHTML = `The ${object.name} provides +${object.armyRating} army.`;
                 if(buildings[2].amount > 0) {
                     barracksModifier = object.armyRating * (buildings[2].amount);
                     object.textDesc.innerHTML += `<b> (+${barracksModifier} due to barracks).</b>`
@@ -432,6 +439,10 @@ function NextYear() {
 
         population += buildings[0].amount;
         gold += population * buildings[1].amount * 100;
+        army += buildings[3].amount * 5;
+
+        gold += ethn == 1 ? population * buildings[1].amount * 50 : 0;
+        population += ethn == 2 ? buildings[0].amount : 0;
 
         SetInfoText();
         SetMsg(`Year ${year} started.`);
