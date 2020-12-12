@@ -28,8 +28,17 @@ const conBuyUnits = document.querySelector(".buy-units-panel");
 const researchBuildingBtn = document.querySelector(".research-building-btn");
 const researchUnitBtn = document.querySelector(".research-unit-btn");
 
+const barbBtn = document.querySelector(".barb-btn");
+const countriesBtn = document.querySelector(".countries-btn");
+const barbPanel = document.querySelector(".barb-panel");
+const countriesPanel = document.querySelector(".countries-panel");
+
+const barbStatus = document.querySelector(".barb-status");
+const barbContBtn = document.querySelector(".barb-continue-button");
+
 //// Game variables ////
 let gameSetup = false;
+let busy = false;
 let ethn = undefined; // 0 = african, 1 = european, 2 = asian
 let empireName = undefined;
 
@@ -82,7 +91,7 @@ function SetBuyables() {
     units = [new Unit("Warrior", undefined, 800, 1, true),
              new Unit("Archer", undefined, 1200, 2),
              new Unit("Knight", undefined, 2000, 4),
-             new Unit("Scout", "Scouts gather intelligence on enemies.", 15000)];
+             new Unit("Scout", "Scouts gather intelligence on enemies. Each scout adds 5% chance of information gathering.", 15000)];
 }
 
 //// Events ////
@@ -100,6 +109,8 @@ startGameBtn.addEventListener('click', StartGame);
 // Main game buttons
 researchBuildingBtn.addEventListener('click', ResearchBuilding);
 researchUnitBtn.addEventListener('click', ResearchUnit);
+barbBtn.addEventListener('click', SelectHeaderBarb);
+countriesBtn.addEventListener('click', SelectHeaderCountries);
 
 
 function NewGame() {
@@ -127,27 +138,54 @@ function ResignGame() {
     conGame.classList.add("hidden");
 }
 
+function SelectHeaderBarb() {
+    SelectHeaders(true);
+}
+function SelectHeaderCountries() {
+    SelectHeaders(false);
+}
+
+function SelectHeaders(barb = true) {
+    if(barb) {
+        barbPanel.classList.remove("nondisplay");
+        countriesPanel.classList.add("nondisplay");
+        barbBtn.classList.add("selected");
+        countriesBtn.classList.remove("selected");
+    } else {
+        barbPanel.classList.add("nondisplay");
+        countriesPanel.classList.remove("nondisplay");
+        barbBtn.classList.remove("selected");
+        countriesBtn.classList.add("selected");
+    }
+}
+
 function ResetDefaults() {
     // Game vars
     gameSetup = false;
     empireName = undefined;
     ethn = undefined;
+    busy = false;
 
     year = 1;
     gold = 2000;
     population = 1;
     army = 0;
 
+    barbArmy = 0;
+    barbLastAttack = 0;
+
     researchCosts = [2500, 2500];
     researchBuildingBtn.children[0].innerHTML = `Research A New Building <b>(${FormatNum(researchCosts[0])} Gold)</b>`;
     researchUnitBtn.children[0].innerHTML = `Research A New Unit <b>(${FormatNum(researchCosts[1])} Gold)</b>`;
+    barbStatus.innerHTML = "There is no information on the nearby barbarians.";
+    barbBtn.innerHTML = "Barbarians";
 
     SetBuyables();
 
     // Inputs
     empireNameInput.value = "";
     SelectEthn(undefined);
-    navNextYearBtn.classList.add("disabled");
+    CanNextYear(false);
 
     // Remove all logs
     while(infoLog.children.length > 0) {
@@ -161,6 +199,8 @@ function ResetDefaults() {
     while(conBuyUnits.children.length > 1) {
         conBuyUnits.children[1].remove();
     }
+
+    barbContBtn.classList.add("nondisplay");
 
     // Reset setup container
     CanSetup();
@@ -232,7 +272,7 @@ function StartGame() {
                 ethnNoun = "Africa";
                 units.forEach(unit => {
                     if(unit.armyRating != undefined) {
-                        unit.armyRating++;
+                        unit.armyRating += 2;
                     }
                 });
                 break;
@@ -266,7 +306,7 @@ function StartGame() {
         conGame.classList.remove("hidden");
         conSetup.classList.add("nondisplay");
 
-        navNextYearBtn.classList.remove("disabled");
+        CanNextYear(true);
 
         gameSetup = true;
     }
@@ -307,24 +347,28 @@ function CreateBuyButton(object, parent) {
     }
 
     object.btn.onclick = () => {
-        if (gold >= object.price) {
-            gold -= object.price;
-            object.amount++;
-
-            object.textAmount.innerHTML = `${object.amount} Owned`;
-            if(object.type == Building) {
-                object.price += Math.ceil(object.price / 200) * 100;
-                object.textBtn.innerHTML = `${object.name} <b>(${FormatNum(object.price)} Gold)</b>`;
-            } else {
-                if(object.armyRating != undefined) {
-                    army += object.armyRating * (1 + buildings[2].amount);
+        if(!busy) {
+            if (gold >= object.price) {
+                gold -= object.price;
+                object.amount++;
+    
+                object.textAmount.innerHTML = `${object.amount} Owned`;
+                if(object.type == Building) {
+                    object.price += Math.ceil(object.price / 200) * 100;
+                    object.textBtn.innerHTML = `${object.name} <b>(${FormatNum(object.price)} Gold)</b>`;
+                } else {
+                    if(object.armyRating != undefined) {
+                        army += object.armyRating * (1 + buildings[2].amount);
+                    }
                 }
+    
+                AddInfoLog(`${object.name} bought for ${FormatNum(object.price)} Gold.`);
+                SetInfoText();
+            } else {
+                SetMsg(`The empire cannot afford to buy a ${object.name}.`, true);
             }
-
-            AddInfoLog(`${object.name} bought for ${FormatNum(object.price)} Gold.`);
-            SetInfoText();
         } else {
-            SetMsg(`The empire cannot afford to buy a ${object.name}.`, true);
+            SetMsg("The empire is currently busy and cannot purchase right now.", true);
         }
     }
 }
@@ -378,73 +422,177 @@ function SetMsg(msg, red = false) {
 }
 
 function ResearchBuilding() {
-    canResearch = false;
-    index = undefined;
-
-    for(i = 0; i < buildings.length; i++) {
-        if(!buildings[i].unlocked) {
-            canResearch = true;
-            index = i;
-            break;
+    if(!busy) {
+        canResearch = false;
+        index = undefined;
+    
+        for(i = 0; i < buildings.length; i++) {
+            if(!buildings[i].unlocked) {
+                canResearch = true;
+                index = i;
+                break;
+            }
         }
-    }
-
-    if(canResearch) {
-        if(gold >= researchCosts[0]) {
-            gold -= researchCosts[0];
-            buildings[index].unlocked = true;
-            CreateBuyButton(buildings[index], conBuyBuildings);
-            SetInfoText(`${buildings[index].name} researched for ${FormatNum(researchCosts[0])}`);
-            researchCosts[0] *= 2;
-            researchBuildingBtn.children[0].innerHTML = `Research A New Building <b>(${FormatNum(researchCosts[0])} Gold)</b>`;
+    
+        if(canResearch) {
+            if(gold >= researchCosts[0]) {
+                gold -= researchCosts[0];
+                buildings[index].unlocked = true;
+                CreateBuyButton(buildings[index], conBuyBuildings);
+                SetInfoText(`${buildings[index].name} researched for ${FormatNum(researchCosts[0])}`);
+                researchCosts[0] *= 2;
+                researchBuildingBtn.children[0].innerHTML = `Research A New Building <b>(${FormatNum(researchCosts[0])} Gold)</b>`;
+            } else {
+                SetMsg("The empire cannot afford to research a new building.", true);
+            }
         } else {
-            SetMsg("The empire cannot afford to research a new building.", true);
+            SetMsg("There are no more buildings to research.", true);
         }
     } else {
-        SetMsg("There are no more buildings to research.", true);
+        SetMsg("The empire is currently busy and cannot research right now.", true);
     }
 }
 
 function ResearchUnit() {
-    canResearch = false;
-    index = undefined;
-
-    for(i = 0; i < units.length; i++) {
-        if(!units[i].unlocked) {
-            canResearch = true;
-            index = i;
-            break;
+    if(!busy) {
+        canResearch = false;
+        index = undefined;
+    
+        for(i = 0; i < units.length; i++) {
+            if(!units[i].unlocked) {
+                canResearch = true;
+                index = i;
+                break;
+            }
         }
-    }
-
-    if(canResearch) {
-        if(gold >= researchCosts[1]) {
-            gold -= researchCosts[1];
-            units[index].unlocked = true;
-            CreateBuyButton(units[index], conBuyUnits);
-            SetInfoText(`${units[index].name} researched for ${FormatNum(researchCosts[1])}`);
-            researchCosts[1] *= 2;
-            researchUnitBtn.children[0].innerHTML = `Research A New Unit <b>(${FormatNum(researchCosts[1])} Gold)</b>`;
+    
+        if(canResearch) {
+            if(gold >= researchCosts[1]) {
+                gold -= researchCosts[1];
+                units[index].unlocked = true;
+                CreateBuyButton(units[index], conBuyUnits);
+                SetInfoText(`${units[index].name} researched for ${FormatNum(researchCosts[1])}`);
+                researchCosts[1] *= 2;
+                researchUnitBtn.children[0].innerHTML = `Research A New Unit <b>(${FormatNum(researchCosts[1])} Gold)</b>`;
+            } else {
+                SetMsg("The empire cannot afford to research a new unit.", true);
+            }
         } else {
-            SetMsg("The empire cannot afford to research a new unit.", true);
+            SetMsg("There are no more units to research.", true);
         }
     } else {
-        SetMsg("There are no more units to research.", true);
+        SetMsg("The empire is currently busy and cannot research right now.", true);
+    }
+}
+
+function CanNextYear(bool = true) {
+    busy = !bool;
+    if(bool) {
+        navNextYearBtn.classList.remove("disabled");
+    } else {
+        navNextYearBtn.classList.add("disabled");
     }
 }
 
 function NextYear() {
-    if(gameSetup) {
-        year++;
-
-        population += buildings[0].amount;
-        gold += population * buildings[1].amount * 100;
-        army += buildings[3].amount * 5;
-
-        gold += ethn == 1 ? population * buildings[1].amount * 50 : 0;
-        population += ethn == 2 ? buildings[0].amount : 0;
-
-        SetInfoText();
-        SetMsg(`Year ${year} started.`);
+    if(gameSetup && !busy) {
+        Barbarians();
     }
+}
+
+function CalculateYearly() {
+    year++;
+    population += buildings[0].amount;
+    gold += population * buildings[1].amount * 100;
+    army += buildings[3].amount * 5;
+
+    gold += ethn == 1 ? population * buildings[1].amount * 50 : 0;
+    population += ethn == 2 ? buildings[0].amount : 0;
+
+    SetInfoText();
+    SetMsg(`Year ${year} started.`);
+}
+
+let barbArmy = 0;
+let barbLastAttack = 0;
+function Barbarians() {
+    if(year >= 9) {
+        barbArmy += 3 * (year - 8) + 10;
+
+        let chance = (year - barbLastAttack) / 12;
+        if(Math.random() <= chance) {
+            CanNextYear(false);
+            barbLastAttack = year;
+
+
+            barbBtn.innerHTML = "Barbarians (!)";
+            barbStatus.innerHTML = `A barbarian force of <b>${barbArmy}</b> is attacking!`;
+            SetMsg(`A barbarian force of ${barbArmy} is attacking!`);
+            barbContBtn.classList.remove("nondisplay");
+        } else {
+            CalculateYearly();
+        }
+    } else {
+        CalculateYearly();
+    }
+}
+
+barbContBtn.addEventListener('click', BarbariansFight);
+function BarbariansFight() {
+    if(barbLastAttack == year) {
+        barbContBtn.classList.add("nondisplay");
+        barbStatus.innerHTML = "...Fighting...";
+
+        setTimeout(function() {
+            CalculateBarbarianFight();
+        }, 1500);
+    }
+}
+
+function CalculateBarbarianFight() {
+    let a = army > barbArmy ? army : barbArmy;
+    let b = army > barbArmy ? barbArmy : army;
+    a = a == 0 ? 1 : a;
+    b = b == 0 ? 1 : b;
+    let x = ((a - b) / b);
+    let rand = Math.random();
+
+    if(army > barbArmy) {
+        const slope = 0.3 * x + 0.85;
+        const lost = Math.ceil(barbArmy / (x * 10));
+        if(rand <= slope) {
+            BarbarianResult(true, "The empire defeats the barbarians!", lost)
+        } else {
+            BarbarianResult(false, "The barbarians defeat the empire.")
+        }
+    } else {
+        const slope = -1.7 * x + 0.85
+        if(rand <= (slope < 0.1 ? 0.1 : slope)) {
+            BarbarianResult(true, "Outnumbered, the empire defeats the barbarians!")
+        } else {
+            BarbarianResult(false, "The barbarians defeat the empire.")
+        }
+    }
+}
+
+function BarbarianResult(win, msg, lost = army) {
+    barbStatus.innerHTML = msg;
+    army -= lost > army ? army : lost;
+    if(win) {
+        AddInfoLog(`The empire defeats the barbarians but loses ${lost} army!`);
+        barbArmy = 0;
+    } else {
+        AddInfoLog(`The empire is defeated! You lose!`, true);
+    }
+
+    setTimeout(function() {
+        barbBtn.innerHTML = "Barbarians";
+        if(win) {
+            barbStatus.innerHTML = "There is no information on the nearby barbarians.";
+            CalculateYearly();
+            CanNextYear(true);
+        } else {
+            barbStatus.innerHTML = "You lose!";
+        }
+    }, 1500);
 }

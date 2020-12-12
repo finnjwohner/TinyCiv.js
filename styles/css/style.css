@@ -46,6 +46,10 @@ button:hover {
   background: #eee;
 }
 
+button:active {
+  background: #dcdcdc;
+}
+
 input[type=text] {
   text-align: center;
   cursor: text;
@@ -88,13 +92,25 @@ h3 {
   cursor: default;
 }
 
+.fakebutton {
+  cursor: default;
+}
+
+.fakebutton:hover {
+  background: #fff;
+}
+
+.fakebutton:active {
+  background: #fff;
+}
+
 .hidden {
   visibility: hidden;
   opacity: 0;
 }
 
 .nondisplay {
-  display: none;
+  display: none !important;
 }
 
 .selected {
@@ -202,6 +218,7 @@ nav button:hover {
 
 .header-btn {
   border: none;
+  /* border-bottom: 1px solid #dcdcdc !important; */
 }
 
 button:hover .desc {
