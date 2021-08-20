@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TinyCiv</title>
+        <link href="./styles/style.css" type="text/css" rel="stylesheet">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./js/avatarSelect.js" defer></script>
+        <script src="./js/client.js" defer></script>
+    </head>
+    <body>
+        <div class="menu-container row-flex">
+            <div class="column-flex" id="lobby-menu">
+                <h1 id="room-code">TinyCiv</h1>
+                <div class="panel">
+                    <div class="avatar">
+                        <img src="./assets/avatars.png" alt="Avatar" id="avatar-select">
+                    </div>
+                    <div class="avatar-select">
+                        <span onclick="backAvatar()">< back</span>
+                        <span onclick="nextAvatar()">next ></span>
+                    </div>
+                    <p>Ruler</p>
+                    <input id="name-input" type="text" placeholder="Name" autocomplete="off" minlength="1" maxlength="16" required spellcheck="false">
+                    <p style="margin-top: 1rem;">Kingdom Of</p>
+                    <input id="kingdom-input" type="text" placeholder="Country Name" autocomplete="off" minlength="1" maxlength="16" required spellcheck="false">
+                    <button style="margin-top: 1rem;" onclick="enterLobby()">Enter Lobby</button>
+                </div>
+            </div>
+            <!--
+            <div class="player-panel">
+                <h2>The Kingdom of<br><b>Placenameington</b></h2>
+                <div class="avatar">
+                    <img src="./assets/avatars.png" alt="Avatar">
+                </div>
+                <h3>Viktor Mulz</h3>
+                <h4>READY</h4>
+            </div>
+        -->
+        </div>
+    </body>
+</html>

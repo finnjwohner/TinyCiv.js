@@ -1,0 +1,178 @@
+html {
+    font-size: 25px;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    color: #fff;
+    cursor: default;
+    font-family: 'VT323'
+}
+
+button, a {
+    cursor: pointer;
+}
+
+input {
+    cursor: text;
+}
+
+h1 {
+    text-shadow: 0 3px 0 #000;
+}
+
+.column-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.row-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.menu-container {
+    background: #22223b;
+    position: fixed;
+    min-width: 100px;
+    width: 100vw;
+    min-height: 300px;
+    height: 100vh;
+}
+
+.player-panel {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 0 #000;
+    width: 300px;
+    height: 500px;
+    background: #a83232;
+    /* #43aed1 blue */
+    /* #a83232 #5c0f0f red */
+    /* #3bd154 green */
+    /* #9a3bd1 purple */
+}
+
+.player-panel h2 {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 12.5px;
+    background: #5c0f0f;
+    box-shadow: 0 3px 0 #000;
+    border: 3px solid #fff;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.player-panel h2 b {
+    font-size: 1.3rem;
+    text-shadow: 0 3px 0 #404040;
+}
+
+div.player-panel h3 {
+    font-size: 1.5rem;
+    text-shadow: 0 3px 0 #404040;
+}
+
+.player-panel h4 {
+    padding: 12.5px 35px;
+    background: green;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 0 #000;
+    font-size: 1.5rem;
+}
+
+.menu {
+    width: 200px;
+    margin: 0.1em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.panel {
+    width: 206px;
+    text-align: center;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.avatar {
+    box-sizing: content-box;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0 3px 0 #000, inset 0 3px 0 #000;
+    border: solid 3px #fff;
+}
+
+.avatar img {
+    height: 100%;
+    width: auto;
+    position: relative;
+    right: calc((width / 5) * 4);
+    image-rendering: pixelated;
+}
+
+.avatar-select {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.avatar-select span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.avatar-select span::selection {
+    background: none;
+}
+
+button, .menu a, input {
+    font-size: 1rem;
+    margin: 0.1em 0;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.2rem;
+    text-align: center;
+    transition: background 0.1s ease-in-out;
+    border: none;
+    outline: none;
+    background: #4a4e69;
+    text-decoration: none;
+}
+
+button:hover, .menu a:hover {
+    background: #9a8c98;
+}
+
+input:valid {
+    background: #ee6c4d;
+}
+
+.error-msg {
+    margin: 0.3em 0;
+    background: red;
+    text-align: center;
+}
+
+.error-msg-transition {
+    transition: background 0.8s ease-in;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');

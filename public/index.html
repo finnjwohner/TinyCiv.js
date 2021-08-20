@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TinyCiv</title>
+        <link href="./styles/style.css" type="text/css" rel="stylesheet">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./js/clientMenu.js"></script>
+        <script src="./js/menu.js" defer></script>
+    </head>
+    <body>
+        <div class="menu-container column-flex">
+            <h1>TinyCiv</h1>
+            <div class="menu" id="main-menu">
+                <p class="error-msg" id="room-code-error" style="visibility: hidden;">Room Doesn't Exist</p>
+                <button onclick="startNewGame()">Start New Game</button>
+                <button onclick="openJoinMenu()">Join Game</button>
+                <a href="./howtoplay">How To Play</a>
+            </div>
+            <div class="menu" id="join-menu" style="display: none">
+                <p class="error-msg error-msg-transition" id="join-input-error" style="visibility: hidden;">Invalid Room Code</p>
+                <button onclick="openMainMenu()">Back</button>
+                <input id="room-code-input" type="text" placeholder="Room Code" autocomplete="off" minlength="5" maxlength="5" spellcheck="false" required>
+                <button onclick="joinGame()">Join Game</button>
+            </div>
+        </div>
+        guten tag
+    </body>
+</html>
