@@ -32,7 +32,7 @@ io.on('connection', socket => {
     console.log(`New socket connection established with ${socket.id}...`);
 
     let player = {
-        joined: false,
+        entered: false,
         avatar: undefined,
         id: socket.id,
         name: undefined,
@@ -82,7 +82,7 @@ io.on('connection', socket => {
         player.avatar = avatar;
         player.name = playerName;
         player.kingdom = kingdom;
-
+        player.entered = true;
 
         const room = rooms.get(player.roomCode);
         room.players.set(player.id, player);

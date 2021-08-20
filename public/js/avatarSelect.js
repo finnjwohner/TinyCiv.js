@@ -1,30 +1,30 @@
-const avatarImg = document.querySelector('#avatar-select');
+const avatarSelectImg = document.querySelector('#avatar-select');
 const numAvatars = 5;
 
-let avatar = 1;
+let selectedAvatar = 1;
 
-const getAvatar = () => { return avatar; }
+const getAvatar = () => { return selectedAvatar; }
 
 const backAvatar = () => {
-    if (avatar == 1)
-        avatar = numAvatars;
+    if (selectedAvatar == 1)
+        selectedAvatar = numAvatars;
     else
-        avatar--;
+        selectedAvatar--;
 
-    setAvatar(avatar);
+    setAvatar();
 }
 
 const nextAvatar = () => {
-    if (avatar == numAvatars)
-        avatar = 1;
+    if (selectedAvatar == numAvatars)
+        selectedAvatar = 1;
     else
-        avatar++;
+        selectedAvatar++;
 
-    setAvatar(avatar);
+    setAvatar();
 }
 
-const setAvatar = avatarNum => {
-    const right = `${(avatarImg.offsetWidth / numAvatars) * (numAvatars - avatarNum)}px`;
-    avatarImg.style.right = right;
-    return right;
+const setAvatar = () => {
+    avatarSelectImg.style.right = `${(avatarSelectImg.offsetWidth / numAvatars) * (numAvatars - selectedAvatar)}px`;
 };
+
+setAvatar();
