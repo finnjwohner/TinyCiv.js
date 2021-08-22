@@ -9,7 +9,8 @@ html {
     font-family: sans-serif;
     color: #fff;
     cursor: default;
-    font-family: 'VT323'
+    font-family: 'VT323';
+    font-weight: 400;
 }
 
 button, a {
@@ -57,10 +58,6 @@ h1 {
     width: 300px;
     height: 500px;
     background: #a83232;
-    /* #43aed1 blue */
-    /* #a83232 #5c0f0f red */
-    /* #3bd154 green */
-    /* #9a3bd1 purple */
 }
 
 .player-panel h2 {
@@ -71,7 +68,6 @@ h1 {
     background: #5c0f0f;
     box-shadow: 0 3px 0 #000;
     border: 3px solid #fff;
-    font-weight: 400;
     font-size: 1rem;
 }
 
@@ -87,10 +83,29 @@ div.player-panel h3 {
 
 .player-panel h4 {
     padding: 12.5px 35px;
-    background: green;
     border: 3px solid #fff;
     box-shadow: 0 3px 0 #000;
     font-size: 1.5rem;
+    width: 211px;
+    text-align: center;
+}
+
+.ready-btn-ready {
+    background: #39ff14;
+}
+
+.ready-btn-notready {
+    background: red;
+}
+
+.ready-btn:hover {
+    box-shadow: inset 0 3px 0 #000;
+    transform: translateY(3px);
+    cursor: pointer;
+}
+
+.ready-btn::selection {
+    background: none;
 }
 
 .menu {
@@ -116,7 +131,7 @@ div.player-panel h3 {
     width: 200px;
     height: 200px;
     overflow: hidden;
-    box-shadow: 0 3px 0 #000, inset 0 3px 0 #000;
+    box-shadow: 0 3px 0 #000;
     border: solid 3px #fff;
 }
 

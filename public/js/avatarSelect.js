@@ -24,7 +24,7 @@ const nextAvatar = () => {
 }
 
 const setAvatar = () => {
-    avatarSelectImg.style.right = `${(avatarSelectImg.offsetWidth / numAvatars) * (numAvatars - selectedAvatar)}px`;
+    avatarSelectImg.style.right = `${(avatarSelectImg.offsetWidth / numAvatars) * (selectedAvatar - 1)}px`;
 };
 
 setAvatar();

@@ -33,11 +33,13 @@ io.on('connection', socket => {
 
     let player = {
         entered: false,
+        ready: false,
         avatar: undefined,
         id: socket.id,
         name: undefined,
         roomCode: undefined,
         kingdom: undefined,
+        colour: undefined,
     }
 
     socket.on('startNewGame', () => {
@@ -53,7 +55,8 @@ io.on('connection', socket => {
         rooms.set(newCode, {
             started: false,
             roomCode: newCode,
-            players: new Map()
+            players: new Map(),
+            colours: ['red', 'green', 'blue', 'purple'],
         })
 
         console.log(`Created new room ${newCode}`);
@@ -85,11 +88,28 @@ io.on('connection', socket => {
         player.entered = true;
 
         const room = rooms.get(player.roomCode);
+
+        const colour = Math.floor(Math.random() * room.colours.length);
+        player.colour = room.colours[colour];
+        room.colours.splice(colour, 1);
+
         room.players.set(player.id, player);
         rooms.set(player.roomCode, room);
 
         io.to(player.roomCode).emit('playerEnteredLobby', player);
     });
+
+    socket.on('playerReadyToggle', playerBtnId => {
+        if (socket.id == playerBtnId) {
+            const room = rooms.get(player.roomCode);
+
+            player.ready = !player.ready;
+
+            rooms.set(player.roomCode, room);
+
+            io.to(player.roomCode).emit('playerReadyToggleReceive', player);
+        }
+    })
 
     socket.on('disconnect', () => {
         if (player.roomCode) {
