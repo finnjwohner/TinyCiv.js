@@ -4,8 +4,8 @@
   "description": "Browser based 'empire-builder' esque multiplayer game.",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node ./server/app.js",
+    "dev": "nodemon ./server/app.js"
   },
   "repository": {
     "type": "git",

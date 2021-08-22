@@ -69,6 +69,7 @@ const displayFullPanel = player => {
             playerPanel.style.background = '#9a3bd1';
             playerPanelh2.style.background = '#8410c7';
             playerPanelAvatarDiv.style.background = '#4a148c';
+            break;
         default:
             console.error(`Error changing player colour to (${player.colour}) in client.js`);
             break;
