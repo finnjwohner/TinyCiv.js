@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const menu = require('./menu.js');
+const lobby = require('./lobby.js');
 
 const rooms = new Map();
 
@@ -45,23 +45,23 @@ io.on('connection', socket => {
     }
 
     socket.on('startNewGame', () => {
-        menu.newGame(socket, rooms);
+        lobby.newGame(socket, rooms);
     });
 
     socket.on('join', code => {
-        menu.joinGame(socket, rooms, player, code);
+        lobby.joinGame(socket, rooms, player, code);
     })
 
     socket.on('enterLobby', (avatar, playerName, kingdom) => {
-        menu.enterLobby(io, rooms, player, avatar, playerName, kingdom);
+        lobby.enterLobby(io, rooms, player, avatar, playerName, kingdom);
     });
 
     socket.on('playerReadyToggle', playerBtnId => {
-        menu.togglePlayerReady(socket, rooms, player, io, playerBtnId);
+        lobby.togglePlayerReady(socket, rooms, player, io, playerBtnId);
     })
 
     socket.on('disconnect', () => {
-        menu.disconnect(player, rooms, io, socket);
+        lobby.disconnect(player, rooms, io, socket);
     })
 })
 

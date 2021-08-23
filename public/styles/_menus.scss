@@ -1,0 +1,174 @@
+.menu-container {
+    position: fixed;
+    min-width: 100px;
+    width: 100vw;
+    min-height: 300px;
+    height: 100vh;
+}
+
+.player-panel {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 0 #000;
+    width: 300px;
+    height: 500px;
+    background: #a83232;
+}
+
+.player-panel h2 {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 12.5px;
+    background: #5c0f0f;
+    box-shadow: 0 3px 0 #000;
+    border: 3px solid #fff;
+    font-size: 1rem;
+}
+
+.player-panel h2 b {
+    font-size: 1.3rem;
+    text-shadow: 0 3px 0 #404040;
+}
+
+div.player-panel h3 {
+    font-size: 1.5rem;
+    text-shadow: 0 3px 0 #404040;
+}
+
+.player-panel h4 {
+    padding: 12.5px 35px;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 0 #000;
+    font-size: 1.5rem;
+    width: 211px;
+    text-align: center;
+}
+
+.ready-btn-ready {
+    background: #39ff14;
+}
+
+.ready-btn-notready {
+    background: red;
+}
+
+.ready-btn:hover {
+    box-shadow: inset 0 3px 0 #000;
+    transform: translateY(3px);
+    cursor: pointer;
+}
+
+.ready-btn::selection {
+    background: none;
+}
+
+.menu {
+    width: 200px;
+    margin: 0.1em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.lobby-options {
+    width: 206px;
+    text-align: center;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.avatar {
+    box-sizing: content-box;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0 3px 0 #000;
+    border: solid 3px #fff;
+}
+
+.avatar img {
+    height: 100%;
+    width: auto;
+    position: relative;
+    image-rendering: pixelated;
+}
+
+.avatar-select {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.avatar-select span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.avatar-select span::selection {
+    background: none;
+}
+
+button, .menu a, input {
+    font-size: 1rem;
+    margin: 0.1em 0;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.2rem;
+    text-align: center;
+    transition: background 0.1s ease-in-out;
+    border: none;
+    outline: none;
+    background: #4a4e69;
+    text-decoration: none;
+}
+
+button:hover, .menu a:hover {
+    background: #9a8c98;
+}
+
+button:disabled {
+    background: #2d2e38;
+    cursor: default;
+}
+
+input:valid {
+    background: #ee6c4d;
+}
+
+.pop-up-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.pop-up {
+    background: #22223b;
+    border: 3px solid #fff;
+    padding: 1.5rem 3rem;
+    font-size: 2rem;
+    box-shadow: 0 3px 0 #000;
+}
+
+.pop-up::selection {
+    background: none;
+}
+
+.error-msg {
+    margin: 0.3em 0;
+    background: red;
+    text-align: center;
+}
+
+.error-msg-transition {
+    transition: background 0.8s ease-in;
+}

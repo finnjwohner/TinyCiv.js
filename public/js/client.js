@@ -3,6 +3,74 @@ const menuCont = document.querySelector('div.menu-container');
 
 let enteredGame = false;
 
+// I define 'entering a lobby' as when the player has subbmited their info,
+// e.g. name, kingdom name, avatar selected, and then pressed 'enter game'.
+socket.on('playerEnteredLobby', player => {
+    setTimeout(displayFullPanel(player), 10);
+})
+
+socket.on('playerJoining', player => {
+    createPanel(player);
+});
+
+socket.on('playerLeaving', id => {
+    const playerPanel = document.querySelector(`div#a${id}.player-panel`);
+    
+    if (playerPanel) { playerPanel.remove(); };
+});
+
+socket.on('joinLobby', players => {
+    players.forEach(player => {
+        createPanel(player);
+    })
+});
+
+socket.on('gameReady', () => {
+    const popup = document.querySelector('.pop-up-container');
+    popup.style.display = null;
+})
+
+const hasRoomCode = () => {
+    const req = new XMLHttpRequest();
+    req.open('GET', document.location, false);
+    req.send(null);
+    return req.getResponseHeader('roomCode');
+}
+
+const enterLobby = () => {
+    enteredGame = true;
+    const avatar = getAvatar();
+    const playerName = document.querySelector('#name-input').value;
+    const kingdom = document.querySelector('#kingdom-input').value;
+
+    socket.emit('enterLobby', avatar, playerName, kingdom);
+
+    document.querySelector('#lobby-menu').remove();
+    document.querySelectorAll('.player-panel').forEach(panel => {
+        panel.style.display = null;
+    })
+}
+
+const readyBtnToggle = player => {
+    const readyBtn = document.querySelector(`div#a${player.id}.player-panel h4`);
+
+    if (player.ready) {
+        readyBtn.classList.add('ready-btn-ready');
+        readyBtn.classList.remove('ready-btn-notready');
+        readyBtn.innerHTML = 'READY';
+    }
+    else {
+        readyBtn.classList.add('ready-btn-notready');
+        readyBtn.classList.remove('ready-btn-ready');
+        readyBtn.innerHTML = 'NOT READY';
+    }
+}
+
+socket.on('playerReadyToggleReceive', player => {
+    console.log('do be togglin');
+    readyBtnToggle(player);
+});
+
 const createPanel = player => {
     const playerPanel = document.createElement('div');
     menuCont.appendChild(playerPanel);
@@ -81,69 +149,6 @@ const displayFullPanel = player => {
     setTimeout(() => {
        playerPanelAvatar.style.right = `${(1000 / 5) * (player.avatar - 1)}px`;
     }, 10);
-}
-
-const readyBtnToggle = player => {
-    const readyBtn = document.querySelector(`div#a${player.id}.player-panel h4`);
-
-    if (player.ready) {
-        readyBtn.classList.add('ready-btn-ready');
-        readyBtn.classList.remove('ready-btn-notready');
-        readyBtn.innerHTML = 'READY';
-    }
-    else {
-        readyBtn.classList.add('ready-btn-notready');
-        readyBtn.classList.remove('ready-btn-ready');
-        readyBtn.innerHTML = 'NOT READY';
-    }
-}
-
-socket.on('playerReadyToggleReceive', player => {
-    console.log('do be togglin');
-    readyBtnToggle(player);
-});
-
-const enterLobby = () => {
-    enteredGame = true;
-    const avatar = getAvatar();
-    const playerName = document.querySelector('#name-input').value;
-    const kingdom = document.querySelector('#kingdom-input').value;
-
-    socket.emit('enterLobby', avatar, playerName, kingdom);
-
-    document.querySelector('#lobby-menu').remove();
-    document.querySelectorAll('.player-panel').forEach(panel => {
-        panel.style.display = null;
-    })
-}
-
-// I define 'entering a lobby' as when the player has subbmited their info,
-// e.g. name, kingdom name, avatar selected, and then pressed 'enter game'.
-socket.on('playerEnteredLobby', player => {
-    setTimeout(displayFullPanel(player), 10);
-})
-
-socket.on('playerJoining', player => {
-    createPanel(player);
-});
-
-socket.on('playerLeaving', id => {
-    const playerPanel = document.querySelector(`div#a${id}.player-panel`);
-    
-    if (playerPanel) { playerPanel.remove(); };
-});
-
-socket.on('joinLobby', players => {
-    players.forEach(player => {
-        createPanel(player);
-    })
-});
-
-const hasRoomCode = () => {
-    const req = new XMLHttpRequest();
-    req.open('GET', document.location, false);
-    req.send(null);
-    return req.getResponseHeader('roomCode');
 }
 
 const roomCode = hasRoomCode();

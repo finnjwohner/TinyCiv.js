@@ -1,0 +1,222 @@
+main {
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+main div.code {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 40px;
+    background: black;
+    font-size: 1rem;
+    text-shadow: 0 3px 0 #404040;
+    border-bottom: 3px solid #fff;
+}
+
+main div.code p {
+    flex: 1;
+}
+
+main header {
+    background: #30305a;
+    width: 100%;
+    height: 100px;
+    border-bottom: 3px solid #fff;
+    box-shadow: 0 3px 0 #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.victory-card {
+    margin: 0 1rem;
+    background: grey;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 0 #000;
+    width: 200px;
+    height: 80px;
+    text-align: center;
+}
+
+.victory-card h3 {
+    text-shadow: 0 3px 0 #404040;
+}
+
+.victory-card h4 {
+    line-height: 90%;
+    font-size: 0.8rem;
+}
+
+aside, article {
+    height: calc(100vh - 40px);
+    width: 400px;
+    background: #30305a;
+    display: flex;
+    flex-direction: column;
+}
+
+aside {
+    float: right;
+    border-left: solid 3px #fff;
+    box-shadow: -3px 0 0 #000;
+}
+
+article {
+    float: left;
+    border-right: solid 3px #fff;
+    box-shadow: 3px 0 0 #000;
+}
+
+.player-card {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+    border-bottom: 3px solid #fff;
+    box-shadow: inset 0 3px 0 #000;
+    background: #a83232;
+}
+
+.player-card:hover {
+    box-shadow: none;
+    border-bottom: none;
+}
+
+.player-card .text {
+    float: left;
+    margin-right: 1rem;
+    width: 225px;
+}
+
+.player-card .text h2 {
+    text-shadow: 0 3px 0 #404040;
+}
+
+.player-card .text h3 {
+    font-size: 1rem;
+}
+
+.player-card .card-avatar {
+    float: right;
+    width: 125px;
+    height: 125px;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 0 #000;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+.player-card .card-avatar img {
+    position: relative;
+    width: auto;
+    height: 125px;
+    image-rendering: pixelated;
+    right: 250px;
+}
+
+section {
+    float: left;
+    width: calc(100vw - 800px);
+}
+
+nav {
+    width: 100%;
+    height: 40px;
+    background: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.resource-container {
+    margin-left: 1rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.resource-container p {
+    margin-right: 1rem;
+}
+
+.year-container {
+    padding: 0 1rem;
+    width: 150px;
+    border-left: 3px solid white;
+}
+
+.year-dots-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.year-dot {
+    border: 2px solid white;
+    width: 7px;
+    height: 7px;
+    background: none;
+}
+
+#year {
+    width: 100%;
+    margin: 0;
+    text-align: right;
+    font-size: 0.8rem;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}
+
+.panel {
+    width: 300px;
+    border: 3px solid white;
+    box-shadow: 0 3px 0 black;
+}
+
+.panel h2 {
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-bottom: 3px solid white;
+}
+
+.panel h3 {
+    font-size: 0.8rem;
+}
+
+.buyables {
+    padding: 0.5rem;
+}
+
+main button {
+    border-radius: 0;
+    border: 3px solid white;
+    box-shadow: 0 3px 0 black;
+}
+
+.details-box {
+    width: 200px;
+    min-height: 100px;
+    background: rgb(22, 22, 22);
+    box-shadow: 0 3px 0 #000;
+    position: absolute;
+    padding: 0.3rem;
+    border: 3px solid white;
+}
+
+.details-box h2 {
+    font-size: 1.2rem;
+    text-shadow: 0 3px 0 #404040;
+}
+
+.details-box p {
+    font-size: 0.8rem;
+}

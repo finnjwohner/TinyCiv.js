@@ -20,7 +20,13 @@ const newGame = (socket, rooms) => {
 }
 
 const joinGame = (socket, rooms, player, code) => {
-    player.roomCode = code;
+    const sanitizeHtml = require('sanitize-html');
+
+    player.roomCode = sanitizeHtml(code, {
+        allowedTags: [],
+        allowedAttributes: {},
+        allowedIframeHostnames: [],
+    });
     socket.join(player.roomCode);
 
     const room = rooms.get(code);
@@ -38,9 +44,19 @@ const joinGame = (socket, rooms, player, code) => {
 }
 
 const enterLobby = (io, rooms, player, avatar, playerName, kingdom) => {
+    const sanitizeHtml = require('sanitize-html');
+
     player.avatar = avatar;
-    player.name = playerName;
-    player.kingdom = kingdom;
+    player.name = sanitizeHtml(playerName, {
+        allowedTags: [],
+        allowedAttributes: {},
+        allowedIframeHostnames: [],
+    });
+    player.kingdom = sanitizeHtml(kingdom, {
+        allowedTags: [],
+        allowedAttributes: {},
+        allowedIframeHostnames: [],
+    });
     player.entered = true;
 
     const room = rooms.get(player.roomCode);
@@ -61,9 +77,20 @@ const togglePlayerReady = (socket, rooms, player, io, playerBtnId) => {
 
         player.ready = !player.ready;
 
-        rooms.set(player.roomCode, room);
-
         io.to(player.roomCode).emit('playerReadyToggleReceive', player);
+
+        gameReady = true;
+        room.players.forEach(player => {
+            if (!player.ready)
+                gameReady = false;
+        })
+        
+        if (gameReady) {
+            room.started = true;
+            io.to(player.roomCode).emit('gameReady');
+        }
+
+        rooms.set(player.roomCode, room);
     }
 }
 
