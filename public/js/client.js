@@ -35,8 +35,10 @@ socket.on('gameReady', players => {
     lobby.gameReady(players);
 })
 
-socket.on('startGame', () => {
+socket.on('startGame', players => {
+    console.log(players);
     game.startGame();
+    game.updateDisplays(players, socket.id);
 })
 
 socket.on('nextYear', (room, players) => {

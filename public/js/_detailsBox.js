@@ -22,8 +22,8 @@ const buyBtns = document.querySelectorAll('.buyBtn');
 buyBtns.forEach(buyBtn => {
     buyBtn.addEventListener('mouseover', (e) => {
         detailsBox.style.display = 'block';
-        detailsh2.innerHTML = details[e.path[0].id][0];
-        detailsp.innerHTML = details[e.path[0].id][1];
+        detailsh2.innerHTML = details[e.toElement.id][0];
+        detailsp.innerHTML = details[e.toElement.id][1];
     })
     buyBtn.addEventListener('mouseleave', (e) => {
         detailsBox.style.display = 'none';

@@ -115,6 +115,7 @@ const disconnect = (player, rooms, io, socket) => {
         if(room.players.size == 0) {
             console.log(`${player.id} (${player.name}) left room ${player.roomCode}`);
             console.log(`Deleted empty room ${player.roomCode}`);
+            clearInterval(room.yearIntervalId);
             rooms.delete(player.roomCode);
         }
         else {

@@ -51,7 +51,7 @@ main header {
 
 aside, article {
     height: calc(100vh - 40px);
-    width: 400px;
+    width: 20vw;
     background: #30305a;
     display: flex;
     flex-direction: column;
@@ -89,7 +89,7 @@ article {
 .player-card .text {
     float: left;
     margin-right: 1rem;
-    width: 225px;
+    width: 8vw;
 }
 
 .player-card .text h2 {
@@ -120,7 +120,7 @@ article {
 
 section {
     float: left;
-    width: calc(100vw - 800px);
+    width: calc(100vw - 40vw);
 }
 
 nav {
@@ -175,7 +175,7 @@ nav {
 }
 
 .panel {
-    width: 300px;
+    width: 17vw;
     border: 3px solid white;
     box-shadow: 0 3px 0 black;
 }

@@ -66,6 +66,12 @@ io.on('connection', socket => {
             lancer: 0,
             galley: 0,
             longship: 0,
+        },
+        naturalResources: {
+            wood: 0,
+            brick: 0,
+            iron: 0,
+            steel: 0,
         }
     }
 
