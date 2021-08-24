@@ -147,7 +147,6 @@ nav {
 .year-container {
   padding: 0 1rem;
   width: 150px;
-  border-left: 3px solid white;
 }
 
 .year-dots-container {
@@ -211,6 +210,7 @@ main button {
   position: absolute;
   padding: 0.3rem;
   border: 3px solid white;
+  display: none;
 }
 
 .details-box h2 {

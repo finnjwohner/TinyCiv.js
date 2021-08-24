@@ -4,19 +4,19 @@
         <title>TinyCiv</title>
         <link href="./styles/style.css" type="text/css" rel="stylesheet">
         <script src="/socket.io/socket.io.js"></script>
-        <script src="./js/avatarSelect.js" defer></script>
-        <script src="./js/client.js" defer></script>
-        <script src="./js/detailsBox.js" defer></script>
+        <script src="./js/_avatarSelect.js" defer></script>
+        <script src="./js/_detailsBox.js" defer></script>
+        <script src="./js/client.js" defer type="module"></script>
     </head>
     <body>
         <div class="details-box">
             <h2>Dockyard</h2>
             <p>The dockyard allows you to build fantastic cool ships to a good standard.</p>
         </div>
-        <div class="menu-container row-flex" style="display: none;">
+        <div class="menu-container row-flex">
             <div class="column-flex" id="lobby-menu">
                 <h1 id="room-code">TinyCiv</h1>
-                <div class="lobby-option">
+                <div class="lobby-options">
                     <div class="avatar">
                         <img src="./assets/avatars.png" alt="Avatar" id="avatar-select">
                     </div>
@@ -28,16 +28,16 @@
                     <input id="name-input" type="text" placeholder="Name" autocomplete="off" minlength="1" maxlength="16" required spellcheck="false">
                     <p style="margin-top: 1rem;">Kingdom Of</p>
                     <input id="kingdom-input" type="text" placeholder="Country Name" autocomplete="off" minlength="1" maxlength="16" required spellcheck="false">
-                    <button style="margin-top: 1rem;" onclick="enterLobby()">Enter Lobby</button>
+                    <button style="margin-top: 1rem;" id="enterLobbyBtn">Enter Lobby</button>
                 </div>
             </div>
         </div>
         <div class="pop-up-container column-flex" style="display: none;">
             <p class="pop-up">GAME STARTING</p>
         </div>
-        <main>
+        <main style="display: none;">
             <div class="code">
-                <p>ROOM: 64869</p>
+                <p id="room-code">ROOM: 64869</p>
                 <p style="text-align: center;">TinyCiv</p>
                 <p style="text-align: right;">SPECTATORS: 0</p>
             </div>
@@ -65,21 +65,21 @@
                 </header>
                 <nav>
                     <div class="resource-container">
-                        <p>Population: 3mil</p>
-                        <p>Gold: 3000</p>
-                        <p>Land: 50km<sup>2</sup></p>
-                        <p>Wood: 5</p>
-                        <p>Brick: 3</p>
-                        <p>Iron: 0</p>
-                        <p>Steel: 13</p>
+                        <p id="pop">Population: 3mil</p>
+                        <p id="gold">Gold: 3000</p>
+                        <p id="land">Land: 50km<sup>2</sup></p>
+                        <p id="wood">Wood: 5</p>
+                        <p id="brick">Brick: 3</p>
+                        <p id="iron">Iron: 0</p>
+                        <p id="steel">Steel: 13</p>
                     </div>
                     <div class="year-container">
                         <div class="year-dots-container">
-                            <div class="year-dot"></div>
-                            <div class="year-dot"></div>
-                            <div class="year-dot"></div>
-                            <div class="year-dot"></div>
-                            <div class="year-dot"></div>
+                            <div class="year-dot dot-1"></div>
+                            <div class="year-dot dot-2"></div>
+                            <div class="year-dot dot-3"></div>
+                            <div class="year-dot dot-4"></div>
+                            <div class="year-dot dot-5"></div>
                         </div>
                         <p id="year">506 AD</p>
                     </div>
@@ -124,52 +124,7 @@
                     </div>
                 </div>
             </section>
-            <aside>
-                <div class="player-card">
-                    <div class="player-card-container">
-                        <div class="text">
-                            <h2>Ci El Campeador</h2>
-                            <h3>Spain</h3>
-                        </div>
-                        <div class="card-avatar">
-                            <img src="./assets/player-avatars.png" alt="Avatar">
-                        </div>
-                    </div>
-                </div>
-                <div class="player-card" style="background: #9a3bd1;">
-                    <div class="player-card-container">
-                        <div class="text">
-                            <h2>Bruce Wayne</h2>
-                            <h3>Sethleham</h3>
-                        </div>
-                        <div class="card-avatar">
-                            <img src="./assets/player-avatars.png" alt="Avatar">
-                        </div>
-                    </div>
-                </div>
-                <div class="player-card" style="background: #43aed1;">
-                    <div class="player-card-container">
-                        <div class="text">
-                            <h2>Stephen The 3rd</h2>
-                            <h3>Youthstead</h3>
-                        </div>
-                        <div class="card-avatar">
-                            <img src="./assets/player-avatars.png" alt="Avatar">
-                        </div>
-                    </div>
-                </div>
-                <div class="player-card" style="background: #22c517;">
-                    <div class="player-card-container">
-                        <div class="text">
-                            <h2>Empress Matilda</h2>
-                            <h3>Mangerthlurry</h3>
-                        </div>
-                        <div class="card-avatar">
-                            <img src="./assets/player-avatars.png" alt="Avatar">
-                        </div>
-                    </div>
-                </div>
-            </aside>
+            <aside></aside>
         </main>
     </body>
 </html>

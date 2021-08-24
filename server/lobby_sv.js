@@ -9,6 +9,8 @@ const newGame = (socket, rooms) => {
         }
 
         rooms.set(newCode, {
+            year: 500,
+            yearIntervalId: undefined,
             started: false,
             roomCode: newCode,
             players: new Map(),
@@ -87,7 +89,15 @@ const togglePlayerReady = (socket, rooms, player, io, playerBtnId) => {
         
         if (gameReady) {
             room.started = true;
-            io.to(player.roomCode).emit('gameReady');
+
+            const players = [];
+            room.players.forEach(player => {
+                players.push(player);
+            })
+
+            io.to(player.roomCode).emit('gameReady', players);
+            rooms.set(player.roomCode, room);
+            return true;
         }
 
         rooms.set(player.roomCode, room);

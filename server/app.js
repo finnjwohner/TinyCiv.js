@@ -1,4 +1,4 @@
-const express = require('express');
+  const express = require('express');
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
@@ -7,7 +7,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const lobby = require('./lobby.js');
+const lobby = require('./lobby_sv.js');
+const game = require('./game_sv.js');
 
 const rooms = new Map();
 
@@ -34,14 +35,38 @@ io.on('connection', socket => {
     console.log(`New socket connection established with ${socket.id}...`);
 
     let player = {
+        id: socket.id,
+        roomCode: undefined,
         entered: false,
         ready: false,
         avatar: undefined,
-        id: socket.id,
-        name: undefined,
-        roomCode: undefined,
-        kingdom: undefined,
         colour: undefined,
+        name: undefined,
+        kingdom: undefined,
+        resources: {
+            pop: 1,
+            gold: 2000,
+            land: 10,
+            wood: 0,
+            brick: 0,
+            iron: 0,
+            steel: 0,
+        },
+        buildings: {
+            granary: 0,
+            windmill: 0,
+            fishery: 0,
+            cattle: 0,
+            dockyard: 0,
+            stable: 0,
+        },
+        units: {
+            swordsman: 0,
+            knight: 0,
+            lancer: 0,
+            galley: 0,
+            longship: 0,
+        }
     }
 
     socket.on('startNewGame', () => {
@@ -57,7 +82,8 @@ io.on('connection', socket => {
     });
 
     socket.on('playerReadyToggle', playerBtnId => {
-        lobby.togglePlayerReady(socket, rooms, player, io, playerBtnId);
+        const gameReady = lobby.togglePlayerReady(socket, rooms, player, io, playerBtnId);
+        game.startGame(gameReady, rooms, player.roomCode, io);
     })
 
     socket.on('disconnect', () => {
