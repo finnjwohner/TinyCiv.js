@@ -5,15 +5,9 @@ main {
 }
 
 main div.code {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 40px;
   background: black;
@@ -23,9 +17,7 @@ main div.code {
 }
 
 main div.code p {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
 }
 
 main header {
@@ -33,25 +25,17 @@ main header {
   width: 100%;
   height: 100px;
   border-bottom: 3px solid #fff;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  box-shadow: 0 3px 0 #000;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .victory-card {
   margin: 0 1rem;
   background: grey;
   border: 3px solid #fff;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
+  box-shadow: 0 3px 0 #000;
   width: 200px;
   height: 80px;
   text-align: center;
@@ -70,51 +54,36 @@ aside, article {
   height: calc(100vh - 40px);
   width: 20vw;
   background: #30305a;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 
 aside {
   float: right;
   border-left: solid 3px #fff;
-  -webkit-box-shadow: -3px 0 0 #000;
-          box-shadow: -3px 0 0 #000;
+  box-shadow: -3px 0 0 #000;
 }
 
 article {
   float: left;
   border-right: solid 3px #fff;
-  -webkit-box-shadow: 3px 0 0 #000;
-          box-shadow: 3px 0 0 #000;
+  box-shadow: 3px 0 0 #000;
 }
 
 .player-card {
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 150px;
   border-bottom: 3px solid #fff;
-  -webkit-box-shadow: inset 0 3px 0 #000;
-          box-shadow: inset 0 3px 0 #000;
+  box-shadow: inset 0 3px 0 #000;
   background: #a83232;
 }
 
 .player-card:hover {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   border-bottom: none;
 }
 
@@ -137,22 +106,16 @@ article {
   width: 125px;
   height: 125px;
   border: 3px solid #fff;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
+  box-shadow: 0 3px 0 #000;
   overflow: hidden;
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
 }
 
 .player-card .card-avatar img {
   position: relative;
   width: auto;
   height: 125px;
-  -ms-interpolation-mode: nearest-neighbor;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-pixelated;
-      image-rendering: pixelated;
+  image-rendering: pixelated;
   right: 250px;
 }
 
@@ -165,28 +128,16 @@ nav {
   width: 100%;
   height: 40px;
   background: #000;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .resource-container {
   margin-left: 1rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
 .resource-container p {
@@ -199,19 +150,14 @@ nav {
 }
 
 .year-dots-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
+  border: 3px solid white;
 }
 
 .year-dot {
-  border: 2px solid white;
+  flex: 1;
   width: 7px;
   height: 7px;
   background: none;
@@ -225,20 +171,15 @@ nav {
 }
 
 .controls {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin: 1rem;
 }
 
 .panel {
   width: 17vw;
   border: 3px solid white;
-  -webkit-box-shadow: 0 3px 0 black;
-          box-shadow: 0 3px 0 black;
+  box-shadow: 0 3px 0 black;
 }
 
 .panel h2 {
@@ -259,16 +200,14 @@ nav {
 main button {
   border-radius: 0;
   border: 3px solid white;
-  -webkit-box-shadow: 0 3px 0 black;
-          box-shadow: 0 3px 0 black;
+  box-shadow: 0 3px 0 black;
 }
 
 .details-box {
   width: 200px;
   min-height: 100px;
   background: #161616;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
+  box-shadow: 0 3px 0 #000;
   position: absolute;
   padding: 0.3rem;
   border: 3px solid white;
@@ -284,6 +223,26 @@ main button {
   font-size: 0.8rem;
 }
 
+#error-msg {
+  background: red;
+  text-align: center;
+}
+
+.opacity-transition {
+  transition: opacity 3s ease-in;
+}
+
+#year-summary {
+  text-shadow: 0 3px 0 grey;
+  background: #05da05;
+  text-align: center;
+}
+
+#buy-msg {
+  text-shadow: 0 2px 0 grey;
+  text-align: center;
+}
+
 .menu-container {
   position: fixed;
   min-width: 100px;
@@ -294,22 +253,12 @@ main button {
 
 .player-panel {
   padding: 25px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   border: 3px solid #fff;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
+  box-shadow: 0 3px 0 #000;
   width: 300px;
   height: 500px;
   background: #a83232;
@@ -321,8 +270,7 @@ main button {
   text-align: center;
   padding: 12.5px;
   background: #5c0f0f;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
+  box-shadow: 0 3px 0 #000;
   border: 3px solid #fff;
   font-size: 1rem;
 }
@@ -340,8 +288,7 @@ div.player-panel h3 {
 .player-panel h4 {
   padding: 12.5px 35px;
   border: 3px solid #fff;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
+  box-shadow: 0 3px 0 #000;
   font-size: 1.5rem;
   width: 211px;
   text-align: center;
@@ -356,15 +303,9 @@ div.player-panel h3 {
 }
 
 .ready-btn:hover {
-  -webkit-box-shadow: inset 0 3px 0 #000;
-          box-shadow: inset 0 3px 0 #000;
-  -webkit-transform: translateY(3px);
-          transform: translateY(3px);
+  box-shadow: inset 0 3px 0 #000;
+  transform: translateY(3px);
   cursor: pointer;
-}
-
-.ready-btn::-moz-selection {
-  background: none;
 }
 
 .ready-btn::selection {
@@ -374,43 +315,27 @@ div.player-panel h3 {
 .menu {
   width: 200px;
   margin: 0.1em 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .lobby-options {
   width: 206px;
   text-align: center;
   margin-top: 1em;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .avatar {
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
   margin: 0 auto;
   width: 200px;
   height: 200px;
   overflow: hidden;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
+  box-shadow: 0 3px 0 #000;
   border: solid 3px #fff;
 }
 
@@ -418,31 +343,19 @@ div.player-panel h3 {
   height: 100%;
   width: auto;
   position: relative;
-  -ms-interpolation-mode: nearest-neighbor;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-pixelated;
-      image-rendering: pixelated;
+  image-rendering: pixelated;
 }
 
 .avatar-select {
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin-bottom: 1em;
 }
 
 .avatar-select span {
   text-decoration: underline;
   cursor: pointer;
-}
-
-.avatar-select span::-moz-selection {
-  background: none;
 }
 
 .avatar-select span::selection {
@@ -455,7 +368,6 @@ button, .menu a, input {
   padding: 0.3rem 0.5rem;
   border-radius: 0.2rem;
   text-align: center;
-  -webkit-transition: background 0.1s ease-in-out;
   transition: background 0.1s ease-in-out;
   border: none;
   outline: none;
@@ -489,12 +401,7 @@ input:valid {
   border: 3px solid #fff;
   padding: 1.5rem 3rem;
   font-size: 2rem;
-  -webkit-box-shadow: 0 3px 0 #000;
-          box-shadow: 0 3px 0 #000;
-}
-
-.pop-up::-moz-selection {
-  background: none;
+  box-shadow: 0 3px 0 #000;
 }
 
 .pop-up::selection {
@@ -508,7 +415,6 @@ input:valid {
 }
 
 .error-msg-transition {
-  -webkit-transition: background 0.8s ease-in;
   transition: background 0.8s ease-in;
 }
 
@@ -517,8 +423,7 @@ html {
 }
 
 * {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: sans-serif;
@@ -544,30 +449,14 @@ body {
 }
 
 .column-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .row-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  align-items: center;
+  justify-content: space-evenly;
 }
-/*# sourceMappingURL=style.css.map */

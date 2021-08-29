@@ -4,6 +4,7 @@ import * as lobby from './lobby_cl.js';
 import * as game from './game_cl.js';
 
 let enteredLobby = false;
+let player = {};
 
 lobby.initialJoin(socket);
 
@@ -36,15 +37,34 @@ socket.on('gameReady', players => {
 })
 
 socket.on('startGame', players => {
-    console.log(players);
     game.startGame();
     game.updateDisplays(players, socket.id);
+    game.setPlayer(player, players, socket.id);
 })
 
 socket.on('nextYear', (room, players) => {
     game.nextYear(room, players, socket);
+    game.setPlayer(player, players, socket.id);
+})
+
+socket.on('errorMsg', msg => {
+    game.errorMsg(msg);
+})
+
+socket.on('buyMsg', msg => {
+    game.buyMsg(msg);
+})
+
+socket.on('sendPlayerInfo', players => {
+    game.updateDisplays(players, socket.id);
 })
 
 document.getElementById('enterLobbyBtn').addEventListener('mousedown', () => {
     enteredLobby = lobby.enterLobby(socket);
+})
+
+document.querySelectorAll('.buyBtn').forEach(btn => {
+    btn.addEventListener('mousedown', () => {
+        socket.emit('buy', btn.id);
+    })
 })

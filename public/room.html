@@ -66,13 +66,13 @@
                 </header>
                 <nav>
                     <div class="resource-container">
-                        <p id="pop">Population: 3mil</p>
-                        <p id="gold">Gold: 3000</p>
-                        <p id="land">Land: 50km<sup>2</sup></p>
-                        <p id="wood">Wood: 5</p>
-                        <p id="brick">Brick: 3</p>
+                        <p id="pop">Population: 1</p>
+                        <p id="gold">Gold: 2000</p>
+                        <p id="land">Land: 10km<sup>2</sup></p>
+                        <p id="wood">Wood: 0</p>
+                        <p id="brick">Brick: 0</p>
                         <p id="iron">Iron: 0</p>
-                        <p id="steel">Steel: 13</p>
+                        <p id="steel">Steel: 0</p>
                     </div>
                     <div class="year-container">
                         <div class="year-dots-container">
@@ -81,41 +81,49 @@
                             <div class="year-dot dot-3"></div>
                             <div class="year-dot dot-4"></div>
                             <div class="year-dot dot-5"></div>
+                            <div class="year-dot dot-6"></div>
+                            <div class="year-dot dot-7"></div>
+                            <div class="year-dot dot-8"></div>
+                            <div class="year-dot dot-9"></div>
+                            <div class="year-dot dot-10"></div>
                         </div>
-                        <p id="year">506 AD</p>
+                        <p id="year">500 AD</p>
                     </div>
                 </nav>
+                <p id="year-summary" style="opacity: 0;">+3400 Gold, +3 Pop, +1 Wood, +4 Brick, +6 Steel, +1 Iron</p>
+                <p id="error-msg" style="opacity: 0;">You can not afford a granary</p>
+                <p id="buy-msg" style="visibility: hidden;">x bought for $y / z AD</p>
                 <div class="controls">
                     <div class="panel">
                         <h2>Purchase Buildings</h2>
                         <div class="buyables">
-                            <button class="buyBtn" id="granary" disabled>Granary</button>
+                            <button class="buyBtn" id="granary">Granary</button>
                             <button class="buyBtn" id="windmill">Windmill</button>
-                            <button class="buyBtn" id="fishery" disabled>Fishery</button>
+                            <button class="buyBtn" id="fishery">Fishery</button>
                             <button class="buyBtn" id="cattle">Cattle Farm</button>
                             <button class="buyBtn" id="dockyard">Dockyard</button>
-                            <button class="buyBtn" id="stable" disabled>Stable</button>
+                            <button class="buyBtn" id="stable">Stable</button>
                         </div>
                     </div>
                     <div class="panel">
                         <h2>Train Units</h2>
                         <div class="buyables">
                             <button class="buyBtn" id="swordsman">Swordsman</button>
-                            <button class="buyBtn" id="knight" disabled>Knight</button>
-                            <button class="buyBtn" id="lancer" disabled>Lancer</button>
+                            <button class="buyBtn" id="knight">Knight</button>
+                            <button class="buyBtn" id="lancer">Lancer</button>
                             <button class="buyBtn" id="galley">Galley</button>
-                            <button class="buyBtn" id="longship" disabled>Longship</button>
+                            <button class="buyBtn" id="longship">Longship</button>
                         </div>
                     </div>
                     <div class="panel">
-                        <h2>Land's Natural Resources</h2>
+                        <h2  id="land-resources">Land's Natural Resources</h2>
                         <div class="buyables">
-                            <h3 id="wood-resource">7x Brick (7 per turn)</h3>
-                            <h3 id="brick-resource">1x Wood (1 per turn)</h3>
-                            <h3 id="iron-resource">2x Iron (2 per turn)</h3>
-                            <h3 id="steel-resource">2x Steel (2 per turn)</h3>
+                            <h3 id="wood-resource"></h3>
+                            <h3 id="brick-resource"></h3>
+                            <h3 id="iron-resource"></h3>
+                            <h3 id="steel-resource"></h3>
                         </div>
-                        <h2 style="border-top: 3px solid white;">Land's Geography</h2>
+                        <h2 style="border-top: 3px solid white;" id="land-geo">Land's Geography</h2>
                         <div class="buyables">
                             <h3>x2 Rivers</h3>
                             <h3>x1 Mountains</h3>

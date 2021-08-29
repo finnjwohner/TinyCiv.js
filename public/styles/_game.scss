@@ -152,10 +152,11 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 3px solid white;
 }
 
 .year-dot {
-    border: 2px solid white;
+    flex: 1;
     width: 7px;
     height: 7px;
     background: none;
@@ -219,4 +220,24 @@ main button {
 
 .details-box p {
     font-size: 0.8rem;
+}
+
+#error-msg {
+    background: red;
+    text-align: center;
+}
+
+.opacity-transition {
+    transition: opacity 3s ease-in;
+}
+
+#year-summary {
+    text-shadow: 0 3px 0 grey;
+    background: rgb(5, 218, 5);
+    text-align: center;
+}
+
+#buy-msg {
+    text-shadow: 0 2px 0 grey;
+    text-align: center;
 }

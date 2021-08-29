@@ -1,3 +1,5 @@
+const { Socket } = require("socket.io");
+
 const startGame = (gameReady, rooms, roomCode, io) => {
     if (gameReady) {
         const room = rooms.get(roomCode);
@@ -63,4 +65,28 @@ const nextYear = (rooms, roomCode, io) => {
     rooms.set(roomCode, room);
 }
 
-module.exports = {startGame};
+const buy = (socket, rooms, plyr, id, buyables) => {
+    const room = rooms.get(plyr.roomCode);
+    const player = room.players.get(plyr.id);
+
+    if (player.resources.gold >= buyables[id].gold) {
+        player.resources.gold -= buyables[id].gold;
+        player.buildings[id]++;
+
+        room.players.set(plyr.id, player);
+        rooms.set(plyr.roomCode, room);
+
+        socket.emit('buyMsg', `You bought a ${buyables[id].name} for ${buyables[id].gold} Gold / ${room.year} AD`);
+
+        players = [];
+        room.players.forEach(i => {
+            players.push(i);
+        })
+        socket.emit('sendPlayerInfo', players);
+    }
+    else {
+        socket.emit('errorMsg', `You can't afford a ${buyables[id].name}!`);
+    }
+}
+
+module.exports = {startGame, buy};

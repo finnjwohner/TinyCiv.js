@@ -1,5 +1,5 @@
 const details = {
-    granary: ['Granary', 'gets stuff'],
+    granary: ['Granary', 'Cost: 1200<br>Each granary increases the population by 1 every year.'],
     windmill: ['Windmill', 'gives the good wind'],
     fishery: ['Fishery', 'i really shouldn\'t'],
     cattle: ['Cattle Farm', 'the beeeeeeef'],
@@ -10,7 +10,7 @@ const details = {
     lancer: ['Lancer', 'you get the jist of it'],
     galley: ['Galley', 'bro im so bored of typing'],
     longship: ['Longship', 'this is so tedius'],
-    explore: ['Explore', 'gain more land !!!'],
+    explore: ['Explore', 'Cost: 5000 Gold<br>Explore more land, discovering new resources and geography.'],
 }
 
 const detailsBox = document.querySelector('.details-box');
