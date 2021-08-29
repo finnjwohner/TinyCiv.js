@@ -1,10 +1,11 @@
 const details = {
-    granary: ['Granary', 'Cost: 1200<br>Each granary increases the population by 1 every year.'],
+    granary: ['Granary', 'Cost: 1200<br>Increases food by 4.'],
     windmill: ['Windmill', 'gives the good wind'],
     fishery: ['Fishery', 'i really shouldn\'t'],
     cattle: ['Cattle Farm', 'the beeeeeeef'],
     dockyard: ['Dockyard', 'excuse the little girl she\'s just a human'],
     stable: ['Stable', 'Well that man is freaky af'],
+    farmer: ['Farmer', 'Cost: 400 Gold<br>+1 Population. 100 Gold is generated per year by each population.'],
     swordsman: ['Swordsman', 'swordy swordy swordy'],
     knight: ['Knight', 'KNIGHT JASPER'],
     lancer: ['Lancer', 'you get the jist of it'],

@@ -9,53 +9,50 @@ export const startGame = () => {
     advanceYearDots();
 }
 
-export const nextYear = (room, players, socket) => {
-    document.getElementById('year').innerHTML = room.year + ' AD';
+export const nextYear = (year, player, yearMsg) => {
+    document.getElementById('year').innerHTML = year + ' AD';
 
-    updateDisplays(players, socket.id);
+    updateDisplays(player);
+    yearSummary(yearMsg);
 
     advanceYearDots();
 }
 
-export const updateDisplays = (players, socketId) => {
-    players.forEach(player => {
-        if (player.id == socketId) {
-            document.getElementById('land-resources').innerHTML = `${player.kingdom}'s Natural Resources`;
-            document.getElementById('land-geo').innerHTML = `${player.kingdom}'s Geography`;
+export const updateDisplays = player => {
+    document.getElementById('land-resources').innerHTML = `${player.kingdom}'s Natural Resources`;
+    document.getElementById('land-geo').innerHTML = `${player.kingdom}'s Geography`;
 
-            document.getElementById('pop').innerHTML = `Population: ${player.resources.pop}`;
-            document.getElementById('gold').innerHTML = `Gold: ${player.resources.gold}`;
-            document.getElementById('land').innerHTML = `Land: ${player.resources.land}km<sup>2</sup>`;
-            document.getElementById('wood').innerHTML = `Wood: ${player.resources.wood}`;
-            document.getElementById('brick').innerHTML = `Brick: ${player.resources.brick}`;
-            document.getElementById('iron').innerHTML = `Iron: ${player.resources.iron}`;
-            document.getElementById('steel').innerHTML = `Steel: ${player.resources.steel}`;
+    document.getElementById('pop').innerHTML = `Population: ${player.resources.pop}/${player.resources.food}`;
+    document.getElementById('gold').innerHTML = `Gold: ${player.resources.gold}`;
+    document.getElementById('land').innerHTML = `Land: ${player.resources.land}km<sup>2</sup>`;
+    document.getElementById('wood').innerHTML = `Wood: ${player.resources.wood}`;
+    document.getElementById('brick').innerHTML = `Brick: ${player.resources.brick}`;
+    document.getElementById('iron').innerHTML = `Iron: ${player.resources.iron}`;
+    document.getElementById('steel').innerHTML = `Steel: ${player.resources.steel}`;
 
-            const woodResource = document.getElementById('wood-resource');
-            const brickResource = document.getElementById('brick-resource');
-            const ironResource = document.getElementById('iron-resource');
-            const steelResource = document.getElementById('steel-resource');
-            if (player.naturalResources.wood != 0)
-                woodResource.innerHTML = `${player.naturalResources.wood}x Wood (${player.naturalResources.wood} per year)`;
-            else
-                woodResource.innerHTML = '';
+    const woodResource = document.getElementById('wood-resource');
+    const brickResource = document.getElementById('brick-resource');
+    const ironResource = document.getElementById('iron-resource');
+    const steelResource = document.getElementById('steel-resource');
+    if (player.naturalResources.wood != 0)
+        woodResource.innerHTML = `${player.naturalResources.wood}x Wood (${player.naturalResources.wood} per year)`;
+    else
+        woodResource.innerHTML = '';
             
-            if(player.naturalResources.brick != 0)
-                brickResource.innerHTML = `${player.naturalResources.brick}x Brick (${player.naturalResources.brick} per year)`;
-            else
-                brickResource.innerHTML = '';
+    if(player.naturalResources.brick != 0)
+        brickResource.innerHTML = `${player.naturalResources.brick}x Brick (${player.naturalResources.brick} per year)`;
+    else
+        brickResource.innerHTML = '';
 
-            if (player.naturalResources.iron != 0)
-                ironResource.innerHTML = `${player.naturalResources.iron}x Iron (${player.naturalResources.iron} per year)`;
-            else
-                ironResource.innerHTML = '';
+    if (player.naturalResources.iron != 0)
+        ironResource.innerHTML = `${player.naturalResources.iron}x Iron (${player.naturalResources.iron} per year)`;
+    else
+        ironResource.innerHTML = '';
 
-            if (player.naturalResources.steel != 0)
-                steelResource.innerHTML = `${player.naturalResources.steel}x Steel (${player.naturalResources.steel} per year)`;
-            else
-                steelResource.innerHTML = '';
-        }
-    })
+    if (player.naturalResources.steel != 0)
+        steelResource.innerHTML = `${player.naturalResources.steel}x Steel (${player.naturalResources.steel} per year)`;
+    else
+        steelResource.innerHTML = '';
 }
 
 export const yearSummary = msg => {
@@ -98,10 +95,4 @@ const advanceYearDots = () => {
             document.querySelector(`.dot-${i}`).style.background = '#fff';
         }, i * 1000);
     }
-}
-
-export const setPlayer = (player, players, socketId) => {
-    players.forEach(plyr => {
-        if (plyr.id == socketId) {player = plyr};
-    })
 }

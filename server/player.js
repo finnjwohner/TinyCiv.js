@@ -9,6 +9,7 @@ function Player(socketId) {
     this.kingdom = undefined;
     this.resources = {
         pop: 1,
+        food: 5,
         gold: 2000,
         land: 10,
         wood: 0,
@@ -25,6 +26,7 @@ function Player(socketId) {
         stable: 0,
     };
     this.units = {
+        farmer: 0,
         swordsman: 0,
         knight: 0,
         lancer: 0,

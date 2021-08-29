@@ -36,15 +36,15 @@ socket.on('gameReady', players => {
     lobby.gameReady(players);
 })
 
-socket.on('startGame', players => {
+socket.on('startGame', plyr => {
     game.startGame();
-    game.updateDisplays(players, socket.id);
-    game.setPlayer(player, players, socket.id);
+    game.updateDisplays(plyr);
+    player = plyr;
 })
 
-socket.on('nextYear', (room, players) => {
-    game.nextYear(room, players, socket);
-    game.setPlayer(player, players, socket.id);
+socket.on('nextYear', (year, plyr, yearMsg) => {
+    game.nextYear(year, plyr, yearMsg);
+    player = plyr;
 })
 
 socket.on('errorMsg', msg => {
@@ -55,8 +55,8 @@ socket.on('buyMsg', msg => {
     game.buyMsg(msg);
 })
 
-socket.on('sendPlayerInfo', players => {
-    game.updateDisplays(players, socket.id);
+socket.on('sendPlayerInfo', plyr => {
+    game.updateDisplays(plyr);
 })
 
 document.getElementById('enterLobbyBtn').addEventListener('mousedown', () => {

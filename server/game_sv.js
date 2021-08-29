@@ -1,5 +1,3 @@
-const { Socket } = require("socket.io");
-
 const startGame = (gameReady, rooms, roomCode, io) => {
     if (gameReady) {
         const room = rooms.get(roomCode);
@@ -34,7 +32,9 @@ const startGame = (gameReady, rooms, roomCode, io) => {
         })
 
         setTimeout(() => {
-            io.to(roomCode).emit('startGame', players);
+            players.forEach(player => {
+                io.to(player.id).emit('startGame', player);
+            })
 
             room.yearIntervalId = setInterval(() => {
                 nextYear(rooms, roomCode, io);
@@ -50,27 +50,60 @@ const nextYear = (rooms, roomCode, io) => {
 
     room.year = room.year + 1;
 
-    let players = [];
     room.players.forEach(player => {
-        player.resources.wood += player.naturalResources.wood;
-        player.resources.brick += player.naturalResources.brick;
-        player.resources.iron += player.naturalResources.iron;
-        player.resources.steel += player.naturalResources.steel;
+        let yearMsg = "";
 
-        players.push(player);
+        player.resources.gold += 100 * player.resources.pop;
+        yearMsg += `+${100 * player.resources.pop} Gold, `;
+
+        if (player.naturalResources.wood != 0) {
+            player.resources.wood += player.naturalResources.wood;
+            yearMsg += `+${player.naturalResources.wood} Wood, `;
+        }
+        if (player.naturalResources.brick != 0) {
+            player.resources.brick += player.naturalResources.brick;
+            yearMsg += `+${player.naturalResources.brick} Brick, `;
+        }
+        if (player.naturalResources.iron != 0) {
+            player.resources.iron += player.naturalResources.iron;
+            yearMsg += `+${player.naturalResources.iron} Iron, `;
+        }
+        if (player.naturalResources.steel != 0) {
+            player.resources.steel += player.naturalResources.steel;
+            yearMsg += `+${player.naturalResources.steel} Steel, `;
+        }
+
+        io.to(player.id).emit('nextYear', room.year, player, yearMsg)
     });
-
-    io.to(roomCode).emit('nextYear', room, players);
 
     rooms.set(roomCode, room);
 }
 
 const buy = (socket, rooms, plyr, id, buyables) => {
     const room = rooms.get(plyr.roomCode);
-    const player = room.players.get(plyr.id);
+    let player = room.players.get(plyr.id);
 
-    if (player.resources.gold >= buyables[id].gold) {
-        player.resources.gold -= buyables[id].gold;
+    let canBuy = true;
+    let error = `You can't afford a ${buyables[id].name}!`;
+    if (buyables[id].gold != undefined) {
+        if (player.resources.gold < buyables[id].gold) {
+            canBuy = false;
+        }
+    }
+    if (buyables[id].pop != undefined) {
+        if ((player.resources.food - player.resources.pop) < buyables[id].pop) {
+            canBuy = false;
+            error = `Not enough food for ${buyables[id].name}!`;
+        }
+    }
+
+    if (canBuy) {
+        if (buyables[id].gold != undefined) { player.resources.gold -= buyables[id].gold; }
+
+        if (buyables[id].func != undefined) {
+            player = buyables[id].func(player);
+        }
+
         player.buildings[id]++;
 
         room.players.set(plyr.id, player);
@@ -78,14 +111,10 @@ const buy = (socket, rooms, plyr, id, buyables) => {
 
         socket.emit('buyMsg', `You bought a ${buyables[id].name} for ${buyables[id].gold} Gold / ${room.year} AD`);
 
-        players = [];
-        room.players.forEach(i => {
-            players.push(i);
-        })
-        socket.emit('sendPlayerInfo', players);
+        socket.emit('sendPlayerInfo', player);
     }
     else {
-        socket.emit('errorMsg', `You can't afford a ${buyables[id].name}!`);
+        socket.emit('errorMsg', error);
     }
 }
 

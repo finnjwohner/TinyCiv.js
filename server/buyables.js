@@ -2,6 +2,11 @@ function Buyables() {
     this.granary = {
         name: "Granary",
         gold: 1200,
+        func: function(player) {
+            player.resources.food += 4;
+
+            return player;
+        }
     }
     this.windmill = {
         name: "Windmill",
@@ -22,6 +27,16 @@ function Buyables() {
     this.stable = {
         name: "Stable",
         gold: 1200,
+    }
+    this.farmer = {
+        name: "Farmer",
+        gold: 400,
+        pop: 1,
+        func: function(player) {
+            player.resources.pop++;
+            
+            return player;
+        }
     }
     this.swordsman = {
         name: "Swordsman",
