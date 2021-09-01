@@ -10,7 +10,7 @@ export const startGame = () => {
 }
 
 export const nextYear = (year, player, yearMsg) => {
-    document.getElementById('year').innerHTML = year + ' AD';
+    document.getElementById('year').innerHTML = 'Year ' + year + '/50';
 
     updateDisplays(player);
     yearSummary(yearMsg);
@@ -93,6 +93,6 @@ const advanceYearDots = () => {
     for(let i = 1; i <= 10; i++) {
         setTimeout(() => {
             document.querySelector(`.dot-${i}`).style.background = '#fff';
-        }, i * 1000);
+        }, i * 1500);
     }
 }

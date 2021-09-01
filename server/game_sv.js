@@ -38,7 +38,7 @@ const startGame = (gameReady, rooms, roomCode, io) => {
 
             room.yearIntervalId = setInterval(() => {
                 nextYear(rooms, roomCode, io);
-            }, 10000);
+            }, 15000);
 
             rooms.set(roomCode, room);
         }, 3000)
@@ -109,7 +109,7 @@ const buy = (socket, rooms, plyr, id, buyables) => {
         room.players.set(plyr.id, player);
         rooms.set(plyr.roomCode, room);
 
-        socket.emit('buyMsg', `You bought a ${buyables[id].name} for ${buyables[id].gold} Gold / ${room.year} AD`);
+        socket.emit('buyMsg', `You bought a ${buyables[id].name} for ${buyables[id].gold} Gold / Year ${room.year}/50`);
 
         socket.emit('sendPlayerInfo', player);
     }

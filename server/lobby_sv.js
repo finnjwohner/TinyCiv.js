@@ -9,7 +9,7 @@ const newGame = (socket, rooms) => {
         }
 
         rooms.set(newCode, {
-            year: 500,
+            year: 0,
             yearIntervalId: undefined,
             started: false,
             roomCode: newCode,
