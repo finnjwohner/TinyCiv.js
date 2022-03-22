@@ -16,7 +16,7 @@ const startGame = (gameReady, rooms, roomCode, io) => {
                         break;
                     case 2:
                         player.naturalResources.iron++;
-                        player.resources.wood += 2;
+                        player.resources.iron += 2;
                         break;
                     case 3:
                         player.naturalResources.steel++;
@@ -53,12 +53,17 @@ const nextYear = (rooms, roomCode, io) => {
     room.players.forEach(player => {
         let yearMsg = "";
 
-        player.resources.gold += 100 * player.resources.pop;
-        yearMsg += `+${100 * player.resources.pop} Gold, `;
+        player.resources.gold += 100 * player.resources.pop * (player.buildings.market + 1);
+        yearMsg += `+${100 * player.resources.pop * (player.buildings.market + 1)} Gold, `;
+        
+        if (player.buildings.windmill != 0) {
+            player.resources.food += player.buildings.windmill;
+            yearMsg += `+${player.buildings.windmill} Food, `;
+        }
 
         if (player.naturalResources.wood != 0) {
             player.resources.wood += player.naturalResources.wood;
-            yearMsg += `+${player.naturalResources.wood} Wood, `;
+            yearMsg += `+${player.naturalResources.wood * (player.buildings.sawmill + 1)} Wood, `;
         }
         if (player.naturalResources.brick != 0) {
             player.resources.brick += player.naturalResources.brick;
@@ -96,9 +101,33 @@ const buy = (socket, rooms, plyr, id, buyables) => {
             error = `Not enough food for ${buyables[id].name}!`;
         }
     }
+    if (buyables[id].wood != undefined) {
+        if (player.resources.wood < buyables[id].wood) {
+            canBuy = false;
+        }
+    }
+    if (buyables[id].brick != undefined) {
+        if (player.resources.brick < buyables[id].brick) {
+            canBuy = false;
+        }
+    }
+    if (buyables[id].iron != undefined) {
+        if (player.resources.iron < buyables[id].iron) {
+            canBuy = false;
+        }
+    }
+    if (buyables[id].steel != undefined) {
+        if (player.resources.steel < buyables[id].steel) {
+            canBuy = false;
+        }
+    }
 
     if (canBuy) {
         if (buyables[id].gold != undefined) { player.resources.gold -= buyables[id].gold; }
+        if (buyables[id].wood != undefined) { player.resources.wood -= buyables[id].wood; }
+        if (buyables[id].brick != undefined) { player.resources.brick -= buyables[id].brick; }
+        if (buyables[id].iron != undefined) { player.resources.iron -= buyables[id].iron; }
+        if (buyables[id].steel != undefined) { player.resources.steel -= buyables[id].steel; }
 
         if (buyables[id].func != undefined) {
             player = buyables[id].func(player);

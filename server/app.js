@@ -36,6 +36,8 @@ app.all('/:roomCode', (req, res) => {
 
 io.on('connection', socket => {
     console.log(`New socket connection established with ${socket.id}...`);
+    
+    socket.emit('receiveBuyables', buyables);
 
     let player = new Player(socket.id);
 

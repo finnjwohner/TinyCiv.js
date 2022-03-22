@@ -5,7 +5,6 @@
         <link href="./styles/style.css" type="text/css" rel="stylesheet">
         <script src="/socket.io/socket.io.js"></script>
         <script src="./js/_avatarSelect.js" defer></script>
-        <script src="./js/_detailsBox.js" defer></script>
         <script src="./js/client.js" defer type="module"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -96,25 +95,11 @@
                 <div class="controls">
                     <div class="panel">
                         <h2>Purchase Buildings</h2>
-                        <div class="buyables">
-                            <button class="buyBtn" id="granary">Granary</button>
-                            <button class="buyBtn" id="windmill">Windmill</button>
-                            <button class="buyBtn" id="fishery">Fishery</button>
-                            <button class="buyBtn" id="cattle">Cattle Farm</button>
-                            <button class="buyBtn" id="dockyard">Dockyard</button>
-                            <button class="buyBtn" id="stable">Stable</button>
-                        </div>
+                        <div class="buyables buildingBuyable"></div>
                     </div>
                     <div class="panel">
                         <h2>Train Units</h2>
-                        <div class="buyables">
-                            <button class="buyBtn" id="farmer">Farmer</button>
-                            <button class="buyBtn" id="swordsman">Swordsman</button>
-                            <button class="buyBtn" id="knight">Knight</button>
-                            <button class="buyBtn" id="lancer">Lancer</button>
-                            <button class="buyBtn" id="galley">Galley</button>
-                            <button class="buyBtn" id="longship">Longship</button>
-                        </div>
+                        <div class="buyables unitBuyable"></div>
                     </div>
                     <div class="panel">
                         <h2  id="land-resources">Land's Natural Resources</h2>
@@ -125,11 +110,10 @@
                             <h3 id="steel-resource"></h3>
                         </div>
                         <h2 style="border-top: 3px solid white;" id="land-geo">Land's Geography</h2>
-                        <div class="buyables">
+                        <div class="buyables geoBuy">
                             <h3>x2 Rivers</h3>
                             <h3>x1 Mountains</h3>
                             <h3>Land Locked</h3>
-                            <button class="buyBtn" id="explore">Explore More Land</button>
                         </div>
                     </div>
                 </div>

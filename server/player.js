@@ -20,7 +20,8 @@ function Player(socketId) {
     this.buildings = {
         granary: 0,
         windmill: 0,
-        fishery: 0,
+        sawmill: 0,
+        market: 0,
         cattle: 0,
         dockyard: 0,
         stable: 0,

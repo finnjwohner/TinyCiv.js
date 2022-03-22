@@ -2,6 +2,7 @@ const socket = io();
 
 import * as lobby from './lobby_cl.js';
 import * as game from './game_cl.js';
+import setBuyables from './buyables_cl.js';
 
 let enteredLobby = false;
 let player = {};
@@ -21,6 +22,10 @@ socket.on('playerJoining', player => {
 socket.on('playerLeaving', id => {
     lobby.playerLeaving(id);
 });
+
+socket.on('receiveBuyables', buyables => {
+    setBuyables(buyables, socket);
+})
 
 socket.on('playerReadyToggleReceive', player => {
     lobby.readyBtnToggle(player);
@@ -57,14 +62,9 @@ socket.on('buyMsg', msg => {
 
 socket.on('sendPlayerInfo', plyr => {
     game.updateDisplays(plyr);
+    player = plyr;
 })
 
 document.getElementById('enterLobbyBtn').addEventListener('mousedown', () => {
     enteredLobby = lobby.enterLobby(socket);
-})
-
-document.querySelectorAll('.buyBtn').forEach(btn => {
-    btn.addEventListener('mousedown', () => {
-        socket.emit('buy', btn.id);
-    })
 })

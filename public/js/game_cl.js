@@ -35,7 +35,7 @@ export const updateDisplays = player => {
     const ironResource = document.getElementById('iron-resource');
     const steelResource = document.getElementById('steel-resource');
     if (player.naturalResources.wood != 0)
-        woodResource.innerHTML = `${player.naturalResources.wood}x Wood (${player.naturalResources.wood} per year)`;
+        woodResource.innerHTML = `${player.naturalResources.wood}x Wood (${player.naturalResources.wood * (player.buildings.sawmill + 1)} per year)`;
     else
         woodResource.innerHTML = '';
             
